@@ -7,11 +7,14 @@
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        /*Salted/Hashed
-        public string salted { get; set; }
-        public string hashed { get; set; }
-        */
 
+        public User(string firstName, string lastName, string email, string password)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+        }
 
 
     }
