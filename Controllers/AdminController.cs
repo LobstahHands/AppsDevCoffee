@@ -17,12 +17,12 @@ namespace AppsDevCoffee.Controllers
             return View(users);
         }
 
-        public IActionResult Orders()
+        public IActionResult Orderlist()
         {
             return View();
         }
 
-        public IActionResult Inventory()
+        public IActionResult InventoryList()
         {
             return View();
         }
