@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Home - Admin";
+}
+
+<div class="container mt-5">
+    <h1>Admin Options</h1>
+
+    <ul class="list-group mt-4">
+        <li class="list-group-item">
+            <a class="btn btn-link" asp-controller="User" asp-action="UserList">User List</a>
+        </li>
+        <li class="list-group-item">
+            <a class="btn btn-link" asp-controller="User" asp-action="OrderList">Orders</a>
+        </li>
+        <li class="list-group-item">
+            <a class="btn btn-link" asp-controller="User" asp-action="InventoryList">Inventory</a>
+        </li>
+    </ul>
+</div>
+
+<div class="container mt-5">
+    <h1>General User Options</h1>
+
+    <ul class="list-group mt-4">
+        <li class="list-group-item">
+            <a class="btn btn-link" asp-controller="User" asp-action="Index">Place New Order</a>
+        </li>
+        <li class="list-group-item">
+            <a class="btn btn-link" asp-controller="User" asp-action="Index">Order History</a>
+        </li>
+    </ul>
+</div>
