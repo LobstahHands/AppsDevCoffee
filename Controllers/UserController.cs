@@ -44,12 +44,17 @@ namespace AppsDevCoffee.Controllers
 
             List<User> users = DB.getUsers();
 
-            User user = users.FirstOrDefault(user => user.Email == email); 
-            if (user.Password == password) {
+            User user = users.FirstOrDefault(user => user.Email == email.Trim().ToLower());
+
+
+            if (user == null) {
+                return View("AccessDenied");
+            }
+            else if (user.Password == password) {
                 return View("Index", user);
             }
-            else { 
-                return View("AccessDenied");   
+            else {
+                return View("AccessDenied");
             }
 
              

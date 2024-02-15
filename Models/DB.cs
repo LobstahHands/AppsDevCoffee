@@ -5,10 +5,10 @@
 
         public static List<User> userList = [
 
-            new User("Joe", "Kopacz", "Joe@mail.com", "Password1!"),
-            new User("Angie", "Kopacz", "Angie@mail.com", "Password1!"),
-            new User("Sebastian", "Kopacz", "Seb@mail.com", "Password1!"),
-            new User("Lewis", "Kopacz", "Lewis@mail.com", "Password1!")
+            new User("Joe", "Kopacz", "joe@mail.com", "Password1!"),
+            new User("Angie", "Kopacz", "angie@mail.com", "Password1!"),
+            new User("Sebastian", "Kopacz", "seb@mail.com", "Password1!"),
+            new User("Lewis", "Kopacz", "lewis@mail.com", "Password1!")
 
             ];
 
