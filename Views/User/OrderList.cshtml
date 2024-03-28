@@ -1,35 +1,43 @@
 ﻿@model List<Order>
 
-<h1 class="display-4">Order page!</h1>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<div class="container mt-5">
+@section pageTitle {
+    <title>Order List</title>
+}
 
-    @if (Model != null && Model.Count > 0)
-    {
-        <table class="table table-bordered">
-            <thead>
+@section content {
+    <h1>Order List</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>User ID</th>
+                <th>Total Paid</th>
+                <th>Order Date</th>
+                <th>Paid Date</th>
+                <th>Subtotal Cost</th>
+                <th>Price Adjustment</th>
+                <th>Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
                 <tr>
-                    <th>Order ID</th>
-                    <th>Roast Description</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
+                    <td>@order.Id</td>
+                    <td>@order.UserId</td>
+                    <td>@order.TotalPaid</td>
+                    <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                    <td>@(order.PaidDate.HasValue ? order.PaidDate.Value.ToString("MM/dd/yyyy") : "-")</td>
+                    <td>@order.SubtotalCost</td>
+                    <td>@order.PriceAdjustment</td>
+                    <td>@order.TotalCost</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var order in Model)
-                {
-                    <tr>
-                        <td>@order.OrderId</td>
-                        <td>@order.RoastDescription</td>
-                        <td>@order.Quantity</td>
-                        <td>@order.TotalPrice</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>No orders available for this user.</p>
-    }
-</div>
+            }
+        </tbody>
+    </table>
+}

@@ -1,5 +1,6 @@
 ﻿
 
+using AppsDevCoffee.Models.TypeTables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
@@ -20,7 +21,7 @@ namespace AppsDevCoffee.Models
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<OriginType> OriginTypes { get; set; }
         public DbSet<RoastType> RoastTypes { get; set; }
-        public DbSet<TierType> TierTypes { get; set; }
+        
         public DbSet<InventoryLog> InventoryLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,16 +56,6 @@ namespace AppsDevCoffee.Models
                 .HasOne(ci => ci.OriginType)
                 .WithMany()
                 .HasForeignKey(ci => ci.OriginTypeId);
-
-            modelBuilder.Entity<CurrentInventory>()
-                .HasOne(ci => ci.TierType)
-                .WithMany()
-                .HasForeignKey(ci => ci.TierTypeId);
-
-            modelBuilder.Entity<InventoryLog>()
-                .HasOne(il => il.CurrentInventory)
-                .WithMany()
-                .HasForeignKey(il => il.CurrentInventoryId);
         }
     }
 }
