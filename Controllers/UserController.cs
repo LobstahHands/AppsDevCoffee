@@ -4,8 +4,9 @@ using AppsDevCoffee.Models;
 
 namespace AppsDevCoffee.Controllers
 {
-    public class UserController : Controller
+    public class UserController(CoffeeAppContext ctx) : Controller
     {
+        private CoffeeAppContext context { get; set; } = ctx;
         public IActionResult Index()
         {
             return View();
@@ -20,7 +21,7 @@ namespace AppsDevCoffee.Controllers
         //Admin Options
         public IActionResult UserList()
         {
-            List<User> users = DB.getUsers();
+            List<User> users = context.Users.ToList();
             return View(users);
         }
 
@@ -42,7 +43,7 @@ namespace AppsDevCoffee.Controllers
         [HttpPost]
         public IActionResult Login(string email, string password) {
 
-            List<User> users = DB.getUsers();
+            List<User> users = new List<User>();
 
             User user = users.FirstOrDefault(user => user.Email == email.Trim().ToLower());
 

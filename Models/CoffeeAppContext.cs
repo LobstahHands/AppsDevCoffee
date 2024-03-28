@@ -2,13 +2,12 @@
 
 using AppsDevCoffee.Models.TypeTables;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace AppsDevCoffee.Models
 {
-    public class YourDbContext : DbContext
+    public class CoffeeAppContext : DbContext
     {
-        public YourDbContext(DbContextOptions<YourDbContext> options) : base(options)
+        public CoffeeAppContext(DbContextOptions<CoffeeAppContext> options) : base(options)
         {
         }
 

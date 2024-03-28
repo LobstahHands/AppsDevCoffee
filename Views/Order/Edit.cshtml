@@ -1,0 +1,54 @@
+﻿@model AppsDevCoffee.Models.Order
+
+<h1>Edit/Add Order</h1>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="UserId" class="control-label"></label>
+        <input asp-for="UserId" class="form-control" />
+        <span asp-validation-for="UserId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TotalPaid" class="control-label"></label>
+        <input asp-for="TotalPaid" class="form-control" />
+        <span asp-validation-for="TotalPaid" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OrderDate" class="control-label"></label>
+        <input asp-for="OrderDate" class="form-control" />
+        <span asp-validation-for="OrderDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PaidDate" class="control-label"></label>
+        <input asp-for="PaidDate" class="form-control" />
+        <span asp-validation-for="PaidDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SubtotalCost" class="control-label"></label>
+        <input asp-for="SubtotalCost" class="form-control" />
+        <span asp-validation-for="SubtotalCost" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PriceAdjustment" class="control-label"></label>
+        <input asp-for="PriceAdjustment" class="form-control" />
+        <span asp-validation-for="PriceAdjustment" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TotalCost" class="control-label"></label>
+        <input asp-for="TotalCost" class="form-control" />
+        <span asp-validation-for="TotalCost" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
