@@ -120,5 +120,11 @@ namespace AppsDevCoffee.Controllers
         {
             return context.Orders.Any(o => o.Id == id);
         }
+
+        public IActionResult NewOrder() 
+        {
+            List<CurrentInventory> currentInventory = new List<CurrentInventory>();
+            return View(currentInventory);
+        }
     }
 }

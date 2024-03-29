@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+@model AppsDevCoffee.Models.Order // Replace YourNamespace with the actual namespace of your project
+
+<h1>Order Details</h1>
+
+<div>
+    <h4>Order ID: @Model.Id</h4>
+    <p>User ID: @Model.UserId</p>
+    <p>Total Paid: @Model.TotalPaid</p>
+    <p>Order Date: @Model.OrderDate</p>
+    <p>Paid Date: @Model.PaidDate</p>
+</div>
+
+<hr />
+
+<h3>Order Items</h3>
+
+@if (Model.OrderItems.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderItem in Model.OrderItems)
+            {
+                <tr>
+                    <td>@orderItem.Id</td>
+                    <td>@orderItem.CurrentInventory.OriginType.Country</td>
+                    <td>@orderItem.OzQuantity</td>
+                    <td>@(orderItem.CostPerOz * orderItem.OzQuantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No order items found for this order.</p>
+}
