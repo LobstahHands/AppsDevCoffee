@@ -1,0 +1,22 @@
+﻿@model List<AppsDevCoffee.Models.CurrentInventory>
+
+<h1>New Order</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label for="coffeeSelect">Select Coffee:</label>
+        <select class="form-control" id="coffeeSelect" name="coffeeId">
+            @foreach (var coffee in Model)
+            {
+                <option value="@coffee.Id">@coffee.OriginType.Country - Quantity: @coffee.OzQuantity</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Place Order</button>
+</form>

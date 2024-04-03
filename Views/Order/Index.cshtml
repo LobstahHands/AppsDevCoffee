@@ -1,0 +1,40 @@
+﻿@*
+   Index view for the Order controller
+*@
+
+@model IEnumerable<AppsDevCoffee.Models.Order> 
+
+<h1>List of Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User ID</th>
+            <th>Total Paid</th>
+            <th>Order Date</th>
+            <th>Paid Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.UserId</td>
+                <td>@order.TotalPaid</td>
+                <td>@order.OrderDate</td>
+                <td>@order.PaidDate</td>
+                <td>
+                    <a asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
+                    @if(true)@*If admin, show additional options*@
+                    {
+                    <a asp-action="Edit" asp-route-id="@order.Id">Edit</a> 
+                    <a asp-action="Delete" asp-route-id="@order.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
