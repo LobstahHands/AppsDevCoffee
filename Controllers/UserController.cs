@@ -24,11 +24,12 @@ namespace AppsDevCoffee.Controllers
         [HttpPost]
         public IActionResult Login(User model)
         {
-            //add Encryption for password
+
+            // Hash the password entered by the user
+            string hashedPassword = HashPassword(model.Password);
 
 
-
-            var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Password == model.Password);
+            var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Hashed == hashedPassword);
 
             if (user != null)
             {
@@ -49,17 +50,75 @@ namespace AppsDevCoffee.Controllers
             ModelState.AddModelError("", "Invalid Username or Password");
             return View(model);
         }
-
+        //Logout
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        //Register
+
+        [HttpPost]
+        public IActionResult Register(User model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if the username already exists
+                var existingUser = Context.Users.FirstOrDefault(u => u.Username == model.Username);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("", "Username already exists.");
+                    return View(model);
+                }
+
+                // Hash the password 
+                string hashedPassword = HashPassword(model.Password);
+
+                // Create a new user
+                var newUser = new User
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    UserTypeId = model.UserTypeId, // Assuming UserTypeId is part of UserModel
+                    Username = model.Username,
+                    Password = model.Password, // Storing plain password temporarily
+                    Hashed = hashedPassword, // Store the hashed password
+                    Active = 1, // Assuming newly registered users are active
+                    DateAdded = DateTime.Now
+                };
+
+                // Add the user to the database
+                Context.Users.Add(newUser);
+                Context.SaveChanges();
+
+                // Redirect to login page after successful registration
+                return RedirectToAction("Login");
+            }
+
+            // If ModelState is not valid, return the view with validation errors
+            return View(model);
+        }
+
+        //Method for password encryption
+        private string HashPassword(string password)
+        {
+            // Implement your password hashing logic here
+            return password;
+        }
+
+
+
 
     }
 
 
-    }
+    
 
 }
