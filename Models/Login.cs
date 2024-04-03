@@ -8,7 +8,7 @@ namespace AppsDevCoffee.Models
         {
             [Required(ErrorMessage = "Please enter a username.")]
             [StringLength(255)]
-            public string Email { get; set; }
+            public string Username { get; set; }
 
             [Required(ErrorMessage = "Please enter a password.")]
             [StringLength(255)]

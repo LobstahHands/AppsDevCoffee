@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using AppsDevCoffee.Models.AppsDevCoffee.Models;
 namespace AppsDevCoffee.Controllers
 {
     public class UserController(CoffeeAppContext ctx) : Controller
@@ -22,7 +23,7 @@ namespace AppsDevCoffee.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User model)
+        public IActionResult Login(Login model)
         {
 
             // Hash the password entered by the user
@@ -44,7 +45,10 @@ namespace AppsDevCoffee.Controllers
 
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                return RedirectToAction("Index", "Employees");
+                string action = "Index";
+                string controller = "Admin";
+                
+                return RedirectToAction(action,controller);
             }
 
             ModelState.AddModelError("", "Invalid Username or Password");
@@ -65,8 +69,9 @@ namespace AppsDevCoffee.Controllers
         //Register
 
         [HttpPost]
-        public IActionResult Register(User model)
+        public IActionResult Register(Register model)
         {
+
             if (ModelState.IsValid)
             {
                 // Check if the username already exists
@@ -86,9 +91,8 @@ namespace AppsDevCoffee.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
-                    UserTypeId = model.UserTypeId, // Assuming UserTypeId is part of UserModel
+                    UserTypeId = 3, //Hardcoded to add as a general user. 
                     Username = model.Username,
-                    Password = model.Password, // Storing plain password temporarily
                     Hashed = hashedPassword, // Store the hashed password
                     Active = 1, // Assuming newly registered users are active
                     DateAdded = DateTime.Now
@@ -97,7 +101,7 @@ namespace AppsDevCoffee.Controllers
                 // Add the user to the database
                 Context.Users.Add(newUser);
                 Context.SaveChanges();
-
+                
                 // Redirect to login page after successful registration
                 return RedirectToAction("Login");
             }

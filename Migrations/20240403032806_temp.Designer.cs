@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppsDevCoffee.Migrations
 {
     [DbContext(typeof(CoffeeAppContext))]
-    [Migration("20240403014215_initial")]
-    partial class initial
+    [Migration("20240403032806_temp")]
+    partial class temp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -285,6 +285,10 @@ namespace AppsDevCoffee.Migrations
                     b.Property<int>("Active")
                         .HasColumnType("int");
 
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
@@ -297,7 +301,6 @@ namespace AppsDevCoffee.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hashed")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -305,10 +308,6 @@ namespace AppsDevCoffee.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Salted")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

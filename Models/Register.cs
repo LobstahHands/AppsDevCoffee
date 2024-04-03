@@ -1,11 +1,9 @@
-﻿using AppsDevCoffee.Models.TypeTables;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AppsDevCoffee.Models
 {
-    public class User
+    public class Register
     {
-        public int Id { get; set; }
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
 
@@ -16,21 +14,17 @@ namespace AppsDevCoffee.Models
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
-        public int UserTypeId { get; set; }
-
         [Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
 
-        public string? Hashed { get; set; }  // Should this be nullable?
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
-        public int Active { get; set; }
+        [Required(ErrorMessage = "Confirm password is required")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
 
-        public DateTime DateAdded { get; set; }
-
-        // Navigation property
-        public UserType UserType { get; set; }
-
-        // Navigation property
-        public List<Order> Orders { get; set; }
     }
 }

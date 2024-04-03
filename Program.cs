@@ -1,4 +1,5 @@
 using AppsDevCoffee.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CoffeeAppContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CoffeeAppContext")).EnableSensitiveDataLogging());
 builder.Services.AddRouting(options => { options.LowercaseUrls = true; options.AppendTrailingSlash = true; });
+
+
+// Add authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        // Configure cookie options if needed
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.LoginPath = "/User/Login"; // Set the login page URL
+                                              
+    });
+
+
 
 
 // Add services to the container.
