@@ -15,7 +15,7 @@ namespace AppsDevCoffee.Models
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
-
+        [Required]
         public int UserTypeId { get; set; }
 
         [Required(ErrorMessage = "Username is required")]

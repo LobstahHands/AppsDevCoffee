@@ -26,13 +26,15 @@ namespace AppsDevCoffee.Controllers
         public IActionResult Login(Login model)
         {
 
-            // Hash the password entered by the user
-            string hashedPassword = HashPassword(model.Password);
+            // Hash the password entered by the user -- uncomment for production
+            //string hashedPassword = PasswordHasher.HashPassword(model.Password);
+            string hashedPassword = model.Password;
+
 
 
             var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Hashed == hashedPassword);
 
-            if (user != null)
+            if (user != null /*&& PasswordHasher.VerifyPassword(user.Hashed,hashedPassword)*/)
             {
                 var claims = new[]
                 {
@@ -47,6 +49,29 @@ namespace AppsDevCoffee.Controllers
 
                 string action = "Index";
                 string controller = "Admin";
+
+                switch (user.UserTypeId)
+                {
+                    case 1:
+                        action = "Index";
+                        controller = "Admin";
+                        break;
+                    case 2:
+                        action = "Index";
+                        controller= "Home";
+                        break;
+                    case 3:
+                        action = "Index";
+                        controller = "Home";
+                        break;
+                    default:
+                        action = "Index";
+                        controller = "Home";
+                        break;
+                }
+
+                 action = "Index";
+                 controller = "Admin";
                 
                 return RedirectToAction(action,controller);
             }
@@ -61,12 +86,13 @@ namespace AppsDevCoffee.Controllers
             return RedirectToAction("Login");
         }
 
+        //Register get
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
-        //Register
+        //Register post
 
         [HttpPost]
         public IActionResult Register(Register model)
@@ -82,8 +108,11 @@ namespace AppsDevCoffee.Controllers
                     return View(model);
                 }
 
-                // Hash the password 
-                string hashedPassword = HashPassword(model.Password);
+                // Hash the password - uncomment for production
+                //string hashedPassword = PasswordHasher.HashPassword(model.Password);
+                
+                //no encryption for testing.
+                string hashedPassword = model.Password;
 
                 // Create a new user
                 var newUser = new User
@@ -91,7 +120,7 @@ namespace AppsDevCoffee.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
-                    UserTypeId = 3, //Hardcoded to add as a general user. 
+                    UserTypeId = 3, //Hardcoded to add as a general user. May leave the is for production and have admin switch to employee.
                     Username = model.Username,
                     Hashed = hashedPassword, // Store the hashed password
                     Active = 1, // Assuming newly registered users are active
@@ -110,19 +139,6 @@ namespace AppsDevCoffee.Controllers
             return View(model);
         }
 
-        //Method for password encryption
-        private string HashPassword(string password)
-        {
-            // Implement your password hashing logic here
-            return password;
-        }
-
-
-
-
-    }
-
-
-    
+    } 
 
 }
