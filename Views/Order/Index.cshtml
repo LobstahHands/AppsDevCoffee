@@ -28,9 +28,9 @@
                 <td>@order.PaidDate</td>
                 <td>
                     <a asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
-                    @if(true)@*If admin, show additional options*@|
+                    @if(true)@*If admin, show additional options*@
                     {
-                    <a asp-action="Edit" asp-route-id="@order.Id">Edit</a> |
+                    <a asp-action="Edit" asp-route-id="@order.Id">Edit</a> 
                     <a asp-action="Delete" asp-route-id="@order.Id">Delete</a>
                     }
                 </td>

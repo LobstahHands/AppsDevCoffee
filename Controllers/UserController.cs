@@ -1,36 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AppsDevCoffee.Models;
-
-
+using System.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 namespace AppsDevCoffee.Controllers
 {
     public class UserController(CoffeeAppContext ctx) : Controller
     {
-        private CoffeeAppContext context { get; set; } = ctx;
+        private CoffeeAppContext Context { get; set; } = ctx;
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        //General User options:
-        //New Order (move to order controller?)
-        //View Order History
-
-
-
-        //Admin Options
-        public IActionResult UserList()
-        {
-            List<User> users = context.Users.ToList();
-            return View(users);
-        }
-
-        public IActionResult Orderlist()
-        {
-            return View();
-        }
-
-        public IActionResult InventoryList()
         {
             return View();
         }
@@ -39,27 +20,44 @@ namespace AppsDevCoffee.Controllers
         {
             return View();
         }
-        //Login 
+
         [HttpPost]
-        public IActionResult Login(string email, string password) {
-
-            List<User> users = new List<User>();
-
-            User user = users.FirstOrDefault(user => user.Email == email.Trim().ToLower());
+        public IActionResult Login(User model)
+        {
+            //add Encryption for password
 
 
-            if (user == null) {
-                return View("AccessDenied");
+
+            var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Password == model.Password);
+
+            if (user != null)
+            {
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name, user.Username)
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var principal = new ClaimsPrincipal(identity);
+
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                return RedirectToAction("Index", "Employees");
             }
-            else if (user.Password == password) {
-                return View("Index", user);
-            }
-            else {
-                return View("AccessDenied");
-            }
 
-             
+            ModelState.AddModelError("", "Invalid Username or Password");
+            return View(model);
         }
+
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
+        }
+
+
+    }
 
 
     }

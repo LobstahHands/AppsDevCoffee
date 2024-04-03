@@ -39,7 +39,7 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        // GET: /Order/Edit/5
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -55,9 +55,9 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        // POST: /Order/Edit/5
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Order order)
         {
             if (id != order.Id)
@@ -88,7 +88,7 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        // GET: /Order/Delete/5
+        [HttpGet]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,9 +105,9 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        // POST: /Order/Delete/5
+        
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             var order = context.Orders.Find(id);
