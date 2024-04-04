@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppsDevCoffee.Migrations
 {
     [DbContext(typeof(CoffeeAppContext))]
-    [Migration("20240403040515_initial")]
+    [Migration("20240404024227_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -282,13 +282,6 @@ namespace AppsDevCoffee.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Active")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConfirmPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
@@ -307,7 +300,7 @@ namespace AppsDevCoffee.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("UserStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -23,7 +23,7 @@ namespace AppsDevCoffee.Models
 
         public string? Hashed { get; set; }  // Should this be nullable?
 
-        public int Active { get; set; }
+        public string UserStatus { get; set; }
 
         public DateTime DateAdded { get; set; }
 

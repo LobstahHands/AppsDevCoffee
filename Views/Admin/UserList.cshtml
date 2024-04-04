@@ -27,9 +27,9 @@
                 <td>@user.LastName</td>
                 <td>@user.Username</td>
                 <td>@user.Email</td>
-                <td>@user.UserType.Description</td>
+                <td>@user.UserTypeId</td>
                 <td>
-                    <a href="@Url.Action("UserDetail", "User", new { id = user.Id })">Details</a>
+                    <a href="@Url.Action("UserDetail", "Admin", new { id = user.Id })">Details</a>
                 </td>
             </tr>
         }

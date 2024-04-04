@@ -34,7 +34,7 @@ namespace AppsDevCoffee.Controllers
 
             var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Hashed == hashedPassword);
 
-            if (user != null /*&& PasswordHasher.VerifyPassword(user.Hashed,hashedPassword)*/)
+            if (user != null && user.UserStatus=="Active"/*&& PasswordHasher.VerifyPassword(user.Hashed,hashedPassword)*/)
             {
                 var claims = new[]
                 {
@@ -123,7 +123,7 @@ namespace AppsDevCoffee.Controllers
                     UserTypeId = 3, //Hardcoded to add as a general user. May leave the is for production and have admin switch to employee.
                     Username = model.Username,
                     Hashed = hashedPassword, // Store the hashed password
-                    Active = 1, // Assuming newly registered users are active
+                    UserStatus = "Active", // switch default to Pending for production until approved by Admin 
                     DateAdded = DateTime.Now
                 };
 

@@ -3,8 +3,9 @@ using AppsDevCoffee.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
-[Authorize]
+//[Authorize]
 public class AdminController : Controller
 {
     private readonly CoffeeAppContext Context;
@@ -14,15 +15,23 @@ public class AdminController : Controller
         Context = context;
     }
 
+    public IActionResult index()
+    {
+        return View();
+    }
+
     public IActionResult UserList()
     {
-        List<User> users = Context.Users.ToList();
+        var users = Context.Users.Include(u => u.UserType).ToList();
         return View(users);
     }
 
+    [Route("admin/userdetail/{id}")]
     public IActionResult UserDetail(int id)
     {
-        User user = Context.Users.FirstOrDefault(u => u.Id == id);
+        User user = Context.Users
+            .Include(u => u.UserType)   
+            .FirstOrDefault(u => u.Id == id);
         if (user == null)
         {
             return NotFound();
@@ -34,7 +43,7 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult EditUser(int id)
     {
-        User user = Context.Users.FirstOrDefault(u => u.Id == id);
+        User user = Context.Users.Include(u => u.UserType).FirstOrDefault(u => u.Id == id);
         if (user == null)
         {
             return NotFound();
