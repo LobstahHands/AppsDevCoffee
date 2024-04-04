@@ -1,7 +1,4 @@
-﻿
-
-using AppsDevCoffee.Models.TypeTables;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace AppsDevCoffee.Models
 {

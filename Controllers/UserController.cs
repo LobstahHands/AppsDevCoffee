@@ -23,7 +23,7 @@ namespace AppsDevCoffee.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(Login model)
+        public IActionResult Login(VMLogin model)
         {
 
             // Hash the password entered by the user -- uncomment for production
@@ -38,7 +38,8 @@ namespace AppsDevCoffee.Controllers
             {
                 var claims = new[]
                 {
-                    new Claim(ClaimTypes.Name, user.Username)
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim("UserTypeId",user.UserTypeId.ToString())
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -95,7 +96,7 @@ namespace AppsDevCoffee.Controllers
         //Register post
 
         [HttpPost]
-        public IActionResult Register(Register model)
+        public IActionResult Register(VMRegister model)
         {
 
             if (ModelState.IsValid)

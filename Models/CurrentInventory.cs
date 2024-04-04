@@ -1,6 +1,4 @@
-﻿using AppsDevCoffee.Models.TypeTables;
-
-namespace AppsDevCoffee.Models
+﻿namespace AppsDevCoffee.Models
 {
     public class CurrentInventory
     {

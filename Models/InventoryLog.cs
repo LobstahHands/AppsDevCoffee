@@ -1,5 +1,4 @@
-﻿using AppsDevCoffee.Models.TypeTables;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace AppsDevCoffee.Models

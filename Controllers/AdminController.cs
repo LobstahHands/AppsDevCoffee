@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AppsDevCoffee.Models;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
-//[Authorize]
+[Authorize(Policy = "AdminOnly")]
 public class AdminController : Controller
 {
     private readonly CoffeeAppContext Context;
@@ -49,22 +47,82 @@ public class AdminController : Controller
             return NotFound();
         }
 
-        ViewBag.UserTypes = Context.UserTypes.ToList(); 
+        ViewBag.UserTypes = Context.UserTypes.ToList();
+        ViewBag.EditAction = "Edit a User";
         return View(user);
     }
 
     [HttpPost]
-    public IActionResult EditUser(User user)
+    public IActionResult EditUser(VMEditUser editUser)
     {
+        ModelState.Remove("UserType");
         if (ModelState.IsValid)
         {
+            var user = Context.Users
+            .Where(u => u.Id == editUser.Id)
+            .Include(u => u.UserType)
+            .FirstOrDefault();
+
+
+            user.FirstName = editUser.FirstName;
+            user.LastName = editUser.LastName;  
+            user.Username = editUser.Username;  
+            user.Email = editUser.Email;
+            user.UserTypeId = editUser.UserTypeId;
+            user.UserStatus = editUser.UserStatus;
+
+
             Context.Users.Update(user);
             Context.SaveChanges();
             return RedirectToAction("UserDetail", new { id = user.Id });
         }
         ViewBag.UserTypes = Context.UserTypes.ToList(); 
-        return View(user);
+        return View(editUser);
     }
+
+
+    [HttpGet]
+    public IActionResult AddUser()
+    {
+        ViewBag.UserTypes = Context.UserTypes.ToList();
+        ViewBag.EditAction = "Add a User";
+        return View("EditUser", new VMEditUser());
+
+    }
+
+
+    [HttpPost]
+    public IActionResult AddUser(VMEditUser editUser)
+    {
+        if (ModelState.IsValid)
+        {
+            // Map the properties from VMEditUser to User model
+            var user = new User
+            {
+                FirstName = editUser.FirstName,
+                LastName = editUser.LastName,
+                Email = editUser.Email,
+                UserTypeId = editUser.UserTypeId,
+                Username = editUser.Username,
+                UserStatus = editUser.UserStatus
+                // Add other properties as needed
+            };
+
+            Context.Users.Add(user);
+            Context.SaveChanges();
+
+            return RedirectToAction("UserDetail", new { id = user.Id });
+        }
+
+        ViewBag.UserTypes = Context.UserTypes.ToList();
+        return View("EditUser", editUser);
+    }
+
+
+
+
+
+
 
     [HttpPost]
     public IActionResult DeleteUser(int id)

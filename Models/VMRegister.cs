@@ -2,7 +2,7 @@
 
 namespace AppsDevCoffee.Models
 {
-    public class Register
+    public class VMRegister
     {
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }

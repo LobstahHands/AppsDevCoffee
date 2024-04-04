@@ -2,9 +2,10 @@
 
 namespace AppsDevCoffee.Models
 {
-    public class User
+    public class VMEditUser
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
 
@@ -14,22 +15,14 @@ namespace AppsDevCoffee.Models
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "User Type is required")]
         public int UserTypeId { get; set; }
 
         [Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
 
-        public string? Hashed { get; set; }  // Should this be nullable?
-
+        [Required(ErrorMessage = "User Status is required")]
         public string UserStatus { get; set; }
-
-        public DateTime DateAdded { get; set; }
-
-        // Navigation property
-        public UserType UserType { get; set; }
-
-        // Navigation property
-        public List<Order> Orders { get; set; }
     }
 }

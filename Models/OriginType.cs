@@ -1,4 +1,4 @@
-﻿namespace AppsDevCoffee.Models.TypeTables
+﻿namespace AppsDevCoffee.Models
 {
     public class OriginType
     {
