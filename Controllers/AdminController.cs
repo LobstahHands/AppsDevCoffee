@@ -105,7 +105,8 @@ public class AdminController : Controller
                 UserTypeId = editUser.UserTypeId,
                 Username = editUser.Username,
                 UserStatus = editUser.UserStatus
-                // Add other properties as needed
+
+                //finish adding necessary properties
             };
 
             Context.Users.Add(user);
@@ -117,11 +118,6 @@ public class AdminController : Controller
         ViewBag.UserTypes = Context.UserTypes.ToList();
         return View("EditUser", editUser);
     }
-
-
-
-
-
 
 
     [HttpPost]
