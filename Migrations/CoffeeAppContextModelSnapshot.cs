@@ -169,6 +169,31 @@ namespace AppsDevCoffee.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("AppsDevCoffee.Models.OriginType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoasterNotes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupplierNotes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OriginTypes");
+                });
+
             modelBuilder.Entity("AppsDevCoffee.Models.Roast", b =>
                 {
                     b.Property<int>("Id")
@@ -203,32 +228,7 @@ namespace AppsDevCoffee.Migrations
                     b.ToTable("Roasts");
                 });
 
-            modelBuilder.Entity("AppsDevCoffee.Models.TypeTables.OriginType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoasterNotes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupplierNotes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OriginTypes");
-                });
-
-            modelBuilder.Entity("AppsDevCoffee.Models.TypeTables.RoastType", b =>
+            modelBuilder.Entity("AppsDevCoffee.Models.RoastType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -246,29 +246,6 @@ namespace AppsDevCoffee.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RoastTypes");
-                });
-
-            modelBuilder.Entity("AppsDevCoffee.Models.TypeTables.UserType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Active")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserTypes");
                 });
 
             modelBuilder.Entity("AppsDevCoffee.Models.User", b =>
@@ -313,11 +290,95 @@ namespace AppsDevCoffee.Migrations
                     b.HasIndex("UserTypeId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateAdded = new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1289),
+                            Email = "admin@example.com",
+                            FirstName = "Admin",
+                            Hashed = "PassPass1!",
+                            LastName = "User",
+                            UserStatus = "Active",
+                            UserTypeId = 1,
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateAdded = new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1339),
+                            Email = "john@example.com",
+                            FirstName = "JohnTest",
+                            Hashed = "PassPass1!",
+                            LastName = "Doe",
+                            UserStatus = "Active",
+                            UserTypeId = 2,
+                            Username = "john"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateAdded = new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1342),
+                            Email = "jane@example.com",
+                            FirstName = "JaneTest",
+                            Hashed = "PassPass1!",
+                            LastName = "Doe",
+                            UserStatus = "Active",
+                            UserTypeId = 3,
+                            Username = "jane"
+                        });
+                });
+
+            modelBuilder.Entity("AppsDevCoffee.Models.UserType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Active")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = 0,
+                            DateAdded = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Active = 0,
+                            DateAdded = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Employee"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Active = 0,
+                            DateAdded = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "User"
+                        });
                 });
 
             modelBuilder.Entity("AppsDevCoffee.Models.CurrentInventory", b =>
                 {
-                    b.HasOne("AppsDevCoffee.Models.TypeTables.OriginType", "OriginType")
+                    b.HasOne("AppsDevCoffee.Models.OriginType", "OriginType")
                         .WithMany()
                         .HasForeignKey("OriginTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -336,7 +397,7 @@ namespace AppsDevCoffee.Migrations
 
             modelBuilder.Entity("AppsDevCoffee.Models.InventoryLog", b =>
                 {
-                    b.HasOne("AppsDevCoffee.Models.TypeTables.OriginType", "OriginType")
+                    b.HasOne("AppsDevCoffee.Models.OriginType", "OriginType")
                         .WithMany()
                         .HasForeignKey("OriginTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -385,7 +446,7 @@ namespace AppsDevCoffee.Migrations
 
             modelBuilder.Entity("AppsDevCoffee.Models.User", b =>
                 {
-                    b.HasOne("AppsDevCoffee.Models.TypeTables.UserType", "UserType")
+                    b.HasOne("AppsDevCoffee.Models.UserType", "UserType")
                         .WithMany()
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.Cascade)

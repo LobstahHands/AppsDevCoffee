@@ -22,6 +22,56 @@ namespace AppsDevCoffee.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
+            modelBuilder.Entity<UserType>().HasData(
+                new UserType { Id = 1, Description = "Admin" },
+                new UserType { Id = 2, Description = "Employee" },
+                new UserType { Id = 3, Description = "User" }
+            );
+
+
+
+
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    FirstName = "Admin",
+                    LastName = "User",
+                    Email = "admin@example.com",
+                    UserTypeId = 1, 
+                    Username = "admin",
+                    Hashed = "PassPass1!", // Replace with hashed password
+                    UserStatus = "Active",
+                    DateAdded = DateTime.Now
+                },
+                new User
+                {
+                    Id = 2,
+                    FirstName = "JohnTest",
+                    LastName = "Doe",
+                    Email = "john@example.com",
+                    UserTypeId = 2, 
+                    Username = "john",
+                    Hashed = "PassPass1!", // Replace with hashed password
+                    UserStatus = "Active",
+                    DateAdded = DateTime.Now
+                },
+                new User
+                {
+                    Id = 3,
+                    FirstName = "JaneTest",
+                    LastName = "Doe",
+                    Email = "jane@example.com",
+                    UserTypeId = 3, 
+                    Username = "jane",
+                    Hashed = "PassPass1!", // Replace with hashed password
+                    UserStatus = "Active",
+                    DateAdded = DateTime.Now
+                }
+            );
+
             // Configure relationships
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.User)
