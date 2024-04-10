@@ -1,16 +1,36 @@
 ﻿using AppsDevCoffee.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AppsDevCoffee.Controllers
 {
+    [Authorize]
     public class OrderController(CoffeeAppContext ctx) : Controller
     {
         private readonly CoffeeAppContext context = ctx;
-        // GET: /Order
+      
         public IActionResult Index()
         {
-            var orders = context.Orders.ToList();
+            // Retrieve the user ID from the claims
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                // User ID claim not found, handle accordingly (e.g., redirect to login)
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Parse the user ID from the claim
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                // Unable to parse user ID, handle accordingly
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Retrieve orders for the logged-in user
+            var orders = context.Orders.Where(o => o.UserId == userId).ToList();
+
+            // Pass the filtered orders to the view
             return View(orders);
         }
 
@@ -24,7 +44,7 @@ namespace AppsDevCoffee.Controllers
 
         // POST: /Order/Add
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] //do this for post methods 
         public IActionResult Add(Order order)
         {
             if (ModelState.IsValid)
@@ -57,7 +77,7 @@ namespace AppsDevCoffee.Controllers
 
         
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Order order)
         {
             if (id != order.Id)

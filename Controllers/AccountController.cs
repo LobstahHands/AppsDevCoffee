@@ -38,8 +38,9 @@ namespace AppsDevCoffee.Controllers
             {
                 var claims = new[]
                 {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim("UserTypeId",user.UserTypeId.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // User ID
+                    new Claim(ClaimTypes.Name, user.Username), //Username
+                    new Claim("UserTypeId",user.UserTypeId.ToString()) //User Type Id
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -49,7 +50,7 @@ namespace AppsDevCoffee.Controllers
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
                 string action = "Index";
-                string controller = "Admin";
+                string controller = "Home";
 
                 switch (user.UserTypeId)
                 {
@@ -80,10 +81,10 @@ namespace AppsDevCoffee.Controllers
             ModelState.AddModelError("", "Invalid Username or Password");
             return View(model);
         }
-        //Logout
+        //Logout  - Absolute savage. instant logout. no confirmation. 
         public IActionResult Logout()
         {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
             return RedirectToAction("Login");
         }
 
@@ -138,6 +139,35 @@ namespace AppsDevCoffee.Controllers
 
             // If ModelState is not valid, return the view with validation errors
             return View(model);
+        }
+
+
+
+        // The GET method brings them to the edit view to edit their user details
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            var userId = int.Parse(User.Identity.Name); // Assuming the user ID is stored in the Name claim
+            var user = Context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // The POST method updates the database
+        [HttpPost]
+        public IActionResult Edit(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                Context.Users.Update(user);
+                Context.SaveChanges();
+                return RedirectToAction("Index", "Home"); // Redirect to a suitable action after successful edit
+            }
+            return View(user);
         }
 
     } 
