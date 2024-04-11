@@ -295,7 +295,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            DateAdded = new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1289),
+                            DateAdded = new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6838),
                             Email = "admin@example.com",
                             FirstName = "Admin",
                             Hashed = "PassPass1!",
@@ -307,7 +307,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            DateAdded = new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1339),
+                            DateAdded = new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6886),
                             Email = "john@example.com",
                             FirstName = "JohnTest",
                             Hashed = "PassPass1!",
@@ -319,7 +319,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 3,
-                            DateAdded = new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1342),
+                            DateAdded = new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6889),
                             Email = "jane@example.com",
                             FirstName = "JaneTest",
                             Hashed = "PassPass1!",

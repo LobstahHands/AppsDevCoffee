@@ -234,9 +234,9 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "DateAdded", "Email", "FirstName", "Hashed", "LastName", "UserStatus", "UserTypeId", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1289), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
-                    { 2, new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1339), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
-                    { 3, new DateTime(2024, 4, 8, 8, 51, 8, 833, DateTimeKind.Local).AddTicks(1342), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
+                    { 1, new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6838), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
+                    { 2, new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6886), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
+                    { 3, new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6889), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
                 });
 
             migrationBuilder.CreateIndex(
