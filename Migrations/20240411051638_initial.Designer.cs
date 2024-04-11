@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppsDevCoffee.Migrations
 {
     [DbContext(typeof(CoffeeAppContext))]
-    [Migration("20240410132619_initial")]
+    [Migration("20240411051638_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace AppsDevCoffee.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AppsDevCoffee.Models.CurrentInventory", b =>
+            modelBuilder.Entity("AppsDevCoffee.Models.Log", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,76 +33,11 @@ namespace AppsDevCoffee.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateLastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OriginTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OzQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<float>("PerOzPrice")
-                        .HasColumnType("real");
-
-                    b.Property<int>("RoastId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TierTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OriginTypeId");
-
-                    b.HasIndex("RoastId");
-
-                    b.ToTable("CurrentInventories");
-                });
-
-            modelBuilder.Entity("AppsDevCoffee.Models.InventoryLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("ChangeDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateLastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OriginTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OzQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<float>("PerOzPrice")
-                        .HasColumnType("real");
-
-                    b.Property<int>("RoastId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TierTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OriginTypeId");
-
-                    b.HasIndex("RoastId");
 
                     b.ToTable("InventoryLogs");
                 });
@@ -141,44 +76,78 @@ namespace AppsDevCoffee.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            OrderDate = new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6246),
+                            PriceAdjustment = 10f,
+                            SubtotalCost = 90f,
+                            TotalCost = 100f,
+                            TotalPaid = 100f,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("AppsDevCoffee.Models.OrderItem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<float>("CostPerOz")
-                        .HasColumnType("real");
-
-                    b.Property<int>("CurrentInventoryId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
 
                     b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OriginTypeId")
                         .HasColumnType("int");
 
                     b.Property<float>("OzQuantity")
                         .HasColumnType("real");
 
-                    b.HasKey("Id");
+                    b.Property<int>("RoastTypeId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CurrentInventoryId");
+                    b.Property<float>("Subtotal")
+                        .HasColumnType("real");
+
+                    b.HasKey("OrderItemId");
 
                     b.HasIndex("OrderId");
 
+                    b.HasIndex("OriginTypeId");
+
+                    b.HasIndex("RoastTypeId");
+
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderItemId = 1,
+                            OrderId = 1,
+                            OriginTypeId = 1,
+                            OzQuantity = 15f,
+                            RoastTypeId = 1,
+                            Subtotal = 15f
+                        });
                 });
 
             modelBuilder.Entity("AppsDevCoffee.Models.OriginType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OriginTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OriginTypeId"));
+
+                    b.Property<int>("Active")
+                        .HasColumnType("int");
+
+                    b.Property<float>("CostPerOz")
+                        .HasColumnType("real");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -192,52 +161,47 @@ namespace AppsDevCoffee.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("OriginTypeId");
 
                     b.ToTable("OriginTypes");
-                });
 
-            modelBuilder.Entity("AppsDevCoffee.Models.Roast", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<TimeSpan>("CoolAt")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan>("FirstCrackTime")
-                        .HasColumnType("time");
-
-                    b.Property<float>("GreenWeightOz")
-                        .HasColumnType("real");
-
-                    b.Property<int>("RoastTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("RoastedWeightOz")
-                        .HasColumnType("real");
-
-                    b.Property<TimeSpan>("SecondCrackTime")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan>("TotalRoastTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roasts");
+                    b.HasData(
+                        new
+                        {
+                            OriginTypeId = 1,
+                            Active = 1,
+                            CostPerOz = 1f,
+                            Country = "Colombia",
+                            RoasterNotes = "Bold at medium, rich at dark",
+                            SupplierNotes = "Versatile"
+                        },
+                        new
+                        {
+                            OriginTypeId = 2,
+                            Active = 1,
+                            CostPerOz = 1f,
+                            Country = "Costa Rica",
+                            RoasterNotes = "Fruity and acidic at light, rounds out to a bold at medium",
+                            SupplierNotes = "Bright and Punch"
+                        },
+                        new
+                        {
+                            OriginTypeId = 3,
+                            Active = 1,
+                            CostPerOz = 1f,
+                            Country = "Mexico",
+                            RoasterNotes = "Bold at medium, rich at dark",
+                            SupplierNotes = "Decaf - floral and honey tasting notes"
+                        });
                 });
 
             modelBuilder.Entity("AppsDevCoffee.Models.RoastType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RoastTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoastTypeId"));
 
                     b.Property<int>("Active")
                         .HasColumnType("int");
@@ -246,9 +210,29 @@ namespace AppsDevCoffee.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoastTypeId");
 
                     b.ToTable("RoastTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            RoastTypeId = 1,
+                            Active = 1,
+                            Description = "Light"
+                        },
+                        new
+                        {
+                            RoastTypeId = 2,
+                            Active = 1,
+                            Description = "Medium"
+                        },
+                        new
+                        {
+                            RoastTypeId = 3,
+                            Active = 1,
+                            Description = "Dark"
+                        });
                 });
 
             modelBuilder.Entity("AppsDevCoffee.Models.User", b =>
@@ -298,7 +282,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            DateAdded = new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6838),
+                            DateAdded = new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6105),
                             Email = "admin@example.com",
                             FirstName = "Admin",
                             Hashed = "PassPass1!",
@@ -310,7 +294,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            DateAdded = new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6886),
+                            DateAdded = new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6156),
                             Email = "john@example.com",
                             FirstName = "JohnTest",
                             Hashed = "PassPass1!",
@@ -322,7 +306,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 3,
-                            DateAdded = new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6889),
+                            DateAdded = new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6159),
                             Email = "jane@example.com",
                             FirstName = "JaneTest",
                             Hashed = "PassPass1!",
@@ -379,44 +363,6 @@ namespace AppsDevCoffee.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AppsDevCoffee.Models.CurrentInventory", b =>
-                {
-                    b.HasOne("AppsDevCoffee.Models.OriginType", "OriginType")
-                        .WithMany()
-                        .HasForeignKey("OriginTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AppsDevCoffee.Models.Roast", "Roast")
-                        .WithMany()
-                        .HasForeignKey("RoastId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OriginType");
-
-                    b.Navigation("Roast");
-                });
-
-            modelBuilder.Entity("AppsDevCoffee.Models.InventoryLog", b =>
-                {
-                    b.HasOne("AppsDevCoffee.Models.OriginType", "OriginType")
-                        .WithMany()
-                        .HasForeignKey("OriginTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AppsDevCoffee.Models.Roast", "Roast")
-                        .WithMany()
-                        .HasForeignKey("RoastId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OriginType");
-
-                    b.Navigation("Roast");
-                });
-
             modelBuilder.Entity("AppsDevCoffee.Models.Order", b =>
                 {
                     b.HasOne("AppsDevCoffee.Models.User", "User")
@@ -430,21 +376,29 @@ namespace AppsDevCoffee.Migrations
 
             modelBuilder.Entity("AppsDevCoffee.Models.OrderItem", b =>
                 {
-                    b.HasOne("AppsDevCoffee.Models.CurrentInventory", "CurrentInventory")
-                        .WithMany()
-                        .HasForeignKey("CurrentInventoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AppsDevCoffee.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CurrentInventory");
+                    b.HasOne("AppsDevCoffee.Models.OriginType", "OriginType")
+                        .WithMany()
+                        .HasForeignKey("OriginTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AppsDevCoffee.Models.RoastType", "RoastType")
+                        .WithMany()
+                        .HasForeignKey("RoastTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
+
+                    b.Navigation("OriginType");
+
+                    b.Navigation("RoastType");
                 });
 
             modelBuilder.Entity("AppsDevCoffee.Models.User", b =>

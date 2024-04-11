@@ -14,51 +14,47 @@ namespace AppsDevCoffee.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "OriginTypes",
+                name: "InventoryLogs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SupplierNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoasterNotes = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OriginTypes", x => x.Id);
+                    table.PrimaryKey("PK_InventoryLogs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roasts",
+                name: "OriginTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    OriginTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoastTypeId = table.Column<int>(type: "int", nullable: false),
-                    TotalRoastTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    FirstCrackTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    SecondCrackTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    CoolAt = table.Column<TimeSpan>(type: "time", nullable: false),
-                    GreenWeightOz = table.Column<float>(type: "real", nullable: false),
-                    RoastedWeightOz = table.Column<float>(type: "real", nullable: false)
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SupplierNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoasterNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CostPerOz = table.Column<float>(type: "real", nullable: false),
+                    Active = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roasts", x => x.Id);
+                    table.PrimaryKey("PK_OriginTypes", x => x.OriginTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "RoastTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    RoastTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Active = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoastTypes", x => x.Id);
+                    table.PrimaryKey("PK_RoastTypes", x => x.RoastTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,70 +70,6 @@ namespace AppsDevCoffee.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CurrentInventories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OzQuantity = table.Column<int>(type: "int", nullable: false),
-                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateLastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoastId = table.Column<int>(type: "int", nullable: false),
-                    PerOzPrice = table.Column<float>(type: "real", nullable: false),
-                    OriginTypeId = table.Column<int>(type: "int", nullable: false),
-                    TierTypeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CurrentInventories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CurrentInventories_OriginTypes_OriginTypeId",
-                        column: x => x.OriginTypeId,
-                        principalTable: "OriginTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CurrentInventories_Roasts_RoastId",
-                        column: x => x.RoastId,
-                        principalTable: "Roasts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InventoryLogs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OzQuantity = table.Column<int>(type: "int", nullable: false),
-                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateLastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoastId = table.Column<int>(type: "int", nullable: false),
-                    PerOzPrice = table.Column<float>(type: "real", nullable: false),
-                    OriginTypeId = table.Column<int>(type: "int", nullable: false),
-                    TierTypeId = table.Column<int>(type: "int", nullable: false),
-                    ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InventoryLogs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InventoryLogs_OriginTypes_OriginTypeId",
-                        column: x => x.OriginTypeId,
-                        principalTable: "OriginTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InventoryLogs_Roasts_RoastId",
-                        column: x => x.RoastId,
-                        principalTable: "Roasts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,28 +127,55 @@ namespace AppsDevCoffee.Migrations
                 name: "OrderItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    OrderItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    CurrentInventoryId = table.Column<int>(type: "int", nullable: false),
+                    OriginTypeId = table.Column<int>(type: "int", nullable: false),
+                    RoastTypeId = table.Column<int>(type: "int", nullable: false),
                     OzQuantity = table.Column<float>(type: "real", nullable: false),
-                    CostPerOz = table.Column<float>(type: "real", nullable: false)
+                    Subtotal = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_CurrentInventories_CurrentInventoryId",
-                        column: x => x.CurrentInventoryId,
-                        principalTable: "CurrentInventories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_OrderItems", x => x.OrderItemId);
                     table.ForeignKey(
                         name: "FK_OrderItems_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_OriginTypes_OriginTypeId",
+                        column: x => x.OriginTypeId,
+                        principalTable: "OriginTypes",
+                        principalColumn: "OriginTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_RoastTypes_RoastTypeId",
+                        column: x => x.RoastTypeId,
+                        principalTable: "RoastTypes",
+                        principalColumn: "RoastTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "OriginTypes",
+                columns: new[] { "OriginTypeId", "Active", "CostPerOz", "Country", "RoasterNotes", "SupplierNotes" },
+                values: new object[,]
+                {
+                    { 1, 1, 1f, "Colombia", "Bold at medium, rich at dark", "Versatile" },
+                    { 2, 1, 1f, "Costa Rica", "Fruity and acidic at light, rounds out to a bold at medium", "Bright and Punch" },
+                    { 3, 1, 1f, "Mexico", "Bold at medium, rich at dark", "Decaf - floral and honey tasting notes" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RoastTypes",
+                columns: new[] { "RoastTypeId", "Active", "Description" },
+                values: new object[,]
+                {
+                    { 1, 1, "Light" },
+                    { 2, 1, "Medium" },
+                    { 3, 1, "Dark" }
                 });
 
             migrationBuilder.InsertData(
@@ -234,40 +193,35 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "DateAdded", "Email", "FirstName", "Hashed", "LastName", "UserStatus", "UserTypeId", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6838), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
-                    { 2, new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6886), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
-                    { 3, new DateTime(2024, 4, 10, 8, 26, 17, 531, DateTimeKind.Local).AddTicks(6889), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
+                    { 1, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6105), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
+                    { 2, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6156), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
+                    { 3, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6159), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CurrentInventories_OriginTypeId",
-                table: "CurrentInventories",
-                column: "OriginTypeId");
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "OrderDate", "PaidDate", "PriceAdjustment", "SubtotalCost", "TotalCost", "TotalPaid", "UserId" },
+                values: new object[] { 1, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6246), null, 10f, 90f, 100f, 100f, 1 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CurrentInventories_RoastId",
-                table: "CurrentInventories",
-                column: "RoastId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InventoryLogs_OriginTypeId",
-                table: "InventoryLogs",
-                column: "OriginTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InventoryLogs_RoastId",
-                table: "InventoryLogs",
-                column: "RoastId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_CurrentInventoryId",
+            migrationBuilder.InsertData(
                 table: "OrderItems",
-                column: "CurrentInventoryId");
+                columns: new[] { "OrderItemId", "OrderId", "OriginTypeId", "OzQuantity", "RoastTypeId", "Subtotal" },
+                values: new object[] { 1, 1, 1, 15f, 1, 15f });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_OriginTypeId",
+                table: "OrderItems",
+                column: "OriginTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_RoastTypeId",
+                table: "OrderItems",
+                column: "RoastTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -290,19 +244,13 @@ namespace AppsDevCoffee.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "RoastTypes");
-
-            migrationBuilder.DropTable(
-                name: "CurrentInventories");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "OriginTypes");
 
             migrationBuilder.DropTable(
-                name: "Roasts");
+                name: "RoastTypes");
 
             migrationBuilder.DropTable(
                 name: "Users");

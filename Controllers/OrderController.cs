@@ -143,8 +143,9 @@ namespace AppsDevCoffee.Controllers
 
         public IActionResult NewOrder() 
         {
-            List<CurrentInventory> currentInventory = new List<CurrentInventory>();
-            return View(currentInventory);
+            var availableCoffees = context.OriginTypes.ToList();
+            ViewBag.AvailableCoffees = availableCoffees;
+            return View();
         }
     }
 }

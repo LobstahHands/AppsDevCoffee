@@ -1,8 +1,4 @@
-﻿@*
-    
-*@
-
-@model AppsDevCoffee.Models.Order
+﻿@model AppsDevCoffee.Models.Order
 
 <h1>Order Details</h1>
 
@@ -26,17 +22,17 @@
                 <th>Item ID</th>
                 <th>Product Name</th>
                 <th>Quantity</th>
-                <th>Cost</th>
+                <th>Total Cost</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var orderItem in Model.OrderItems)
             {
                 <tr>
-                    <td>@orderItem.Id</td>
-                    <td>@orderItem.CurrentInventory.OriginType.Country</td>
+                    <td>@orderItem.OrderItemId</td>
+                    <td>@orderItem.OriginType.Country</td>
                     <td>@orderItem.OzQuantity</td>
-                    <td>@(orderItem.CostPerOz * orderItem.OzQuantity)</td>
+                    <td>@orderItem.Subtotal</td>
                 </tr>
             }
         </tbody>

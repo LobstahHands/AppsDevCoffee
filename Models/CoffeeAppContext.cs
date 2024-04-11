@@ -12,18 +12,14 @@ namespace AppsDevCoffee.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<CurrentInventory> CurrentInventories { get; set; }
-        public DbSet<Roast> Roasts { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<OriginType> OriginTypes { get; set; }
         public DbSet<RoastType> RoastTypes { get; set; }
         
-        public DbSet<InventoryLog> InventoryLogs { get; set; }
+        public DbSet<Log> InventoryLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
             modelBuilder.Entity<UserType>().HasData(
                 new UserType { Id = 1, Description = "Admin" },
                 new UserType { Id = 2, Description = "Employee" },
@@ -40,7 +36,7 @@ namespace AppsDevCoffee.Models
                     FirstName = "Admin",
                     LastName = "User",
                     Email = "admin@example.com",
-                    UserTypeId = 1, 
+                    UserTypeId = 1,
                     Username = "admin",
                     Hashed = "PassPass1!", // Replace with hashed password
                     UserStatus = "Active",
@@ -52,7 +48,7 @@ namespace AppsDevCoffee.Models
                     FirstName = "JohnTest",
                     LastName = "Doe",
                     Email = "john@example.com",
-                    UserTypeId = 2, 
+                    UserTypeId = 2,
                     Username = "john",
                     Hashed = "PassPass1!", // Replace with hashed password
                     UserStatus = "Active",
@@ -64,12 +60,94 @@ namespace AppsDevCoffee.Models
                     FirstName = "JaneTest",
                     LastName = "Doe",
                     Email = "jane@example.com",
-                    UserTypeId = 3, 
+                    UserTypeId = 3,
                     Username = "jane",
                     Hashed = "PassPass1!", // Replace with hashed password
                     UserStatus = "Active",
                     DateAdded = DateTime.Now
                 }
+            );
+
+
+            modelBuilder.Entity<OriginType>().HasData(
+                new OriginType {
+                    OriginTypeId = 1,
+                    Country = "Colombia",
+                    SupplierNotes = "Versatile",
+                    RoasterNotes = "Bold at medium, rich at dark",
+                    CostPerOz = 1.0f,
+                    Active = 1
+                },
+                new OriginType
+                {
+                    OriginTypeId = 2,
+                    Country = "Costa Rica",
+                    SupplierNotes = "Bright and Punch",
+                    RoasterNotes = "Fruity and acidic at light, rounds out to a bold at medium",
+                    CostPerOz = 1.0f,
+                    Active = 1
+                },
+                new OriginType
+                {
+                    OriginTypeId = 3,
+                    Country = "Mexico",
+                    SupplierNotes = "Decaf - floral and honey tasting notes",
+                    RoasterNotes = "Bold at medium, rich at dark",
+                    CostPerOz = 1.0f,
+                    Active = 1
+                }
+            );
+
+            modelBuilder.Entity<RoastType>().HasData(
+
+                new RoastType
+                {
+                    RoastTypeId = 1,
+                    Description = "Light",
+                    Active = 1
+                },
+                new RoastType
+                {
+                    RoastTypeId = 2,
+                    Description = "Medium",
+                    Active = 1
+                },
+                new RoastType
+                {
+                    RoastTypeId = 3,
+                    Description = "Dark",
+                    Active = 1
+                }
+
+                );
+        
+
+            // Seed OrderItems
+            modelBuilder.Entity<OrderItem>().HasData(
+                new OrderItem
+                {
+                    OrderItemId = 1,
+                    OrderId = 1, // Order ID
+                    OriginTypeId = 1,
+                    RoastTypeId = 1,
+                    OzQuantity = 15.00f,
+                    Subtotal = 15.00f
+
+                }
+            );
+
+            modelBuilder.Entity<Order>().HasData(
+                new Order
+                {
+                    Id = 1,
+                    UserId = 1, // Admin user
+                    TotalPaid = 100.0f,
+                    OrderDate = DateTime.Now,
+                    SubtotalCost = 90.0f,
+                    PriceAdjustment = 10.0f,
+                    TotalCost = 100.0f
+                }
+                // Add more orders here if needed
             );
 
             // Configure relationships
@@ -88,20 +166,6 @@ namespace AppsDevCoffee.Models
                 .WithMany(o => o.OrderItems)
                 .HasForeignKey(oi => oi.OrderId);
 
-            modelBuilder.Entity<OrderItem>()
-                .HasOne(oi => oi.CurrentInventory)
-                .WithMany()
-                .HasForeignKey(oi => oi.CurrentInventoryId);
-
-            modelBuilder.Entity<CurrentInventory>()
-                .HasOne(ci => ci.Roast)
-                .WithMany()
-                .HasForeignKey(ci => ci.RoastId);
-
-            modelBuilder.Entity<CurrentInventory>()
-                .HasOne(ci => ci.OriginType)
-                .WithMany()
-                .HasForeignKey(ci => ci.OriginTypeId);
         }
     }
 }
