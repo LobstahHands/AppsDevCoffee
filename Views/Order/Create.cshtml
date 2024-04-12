@@ -1,0 +1,68 @@
+﻿@model OrderItem
+
+@{
+    ViewData["Title"] = "Create Order";
+}
+
+<h1>Create Order</h1>
+
+@using (Html.BeginForm("Create", "Order", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Select Coffee:</label>
+                <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId">
+                    @foreach (var coffee in ViewBag.AvailableOriginTypes)
+                    {
+                        <option value="@coffee.OriginTypeId">@coffee.Country - @coffee.SupplierNotes</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Select Roast Type:</label>
+                <select class="form-control" id="roastSelect" asp-for="RoastTypeId">
+                    @foreach (var roastType in ViewBag.AvailableRoastTypes)
+                    {
+                        <option value="@roastType.RoastTypeId">@roastType.Description</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Oz Quantity:</label><br />
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="OzQuantity" value="8" checked>
+                    <label class="form-check-label" asp-for="OzQuantity">8</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="OzQuantity" value="15">
+                    <label class="form-check-label" asp-for="OzQuantity">15</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="OzQuantity" value="28">
+                    <label class="form-check-label" asp-for="OzQuantity">28</label>
+                </div>
+            </div>
+
+            <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Order</button>
+        </div>
+        <div class="col-md-6">
+            <div id="orderItemsBox" class="border p-2">
+                <h4>Order Items</h4>
+                <ul id="orderItemsList">
+                    @* @if (TempData.ContainsKey("orderItems") && TempData["orderItems"] != null)
+                    {
+                        foreach (var item in TempData["orderItems"] as List<string>)
+                        {
+                            <li>@item</li>
+                        }
+                    } *@
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" name="submitType" value="createOrder" class="btn btn-success">Create Order</button>
+    <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
+}

@@ -1,6 +1,9 @@
 ﻿using AppsDevCoffee.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
 using System.Security.Claims;
 
 namespace AppsDevCoffee.Controllers
@@ -9,7 +12,7 @@ namespace AppsDevCoffee.Controllers
     public class OrderController(CoffeeAppContext ctx) : Controller
     {
         private readonly CoffeeAppContext context = ctx;
-      
+
         public IActionResult Index()
         {
             // Retrieve the user ID from the claims
@@ -39,25 +42,72 @@ namespace AppsDevCoffee.Controllers
         {
             // Populate any necessary data for creating a new order, e.g., users, products, etc.
             Order order = new Order();
-            return View("Edit",order);
+            return View("Edit", order);
         }
 
-        // POST: /Order/Add
-        [HttpPost]
-        [ValidateAntiForgeryToken] //do this for post methods 
-        public IActionResult Add(Order order)
+        [HttpGet]
+        public IActionResult Create()
         {
-            if (ModelState.IsValid)
-            {
-                // Set any default values or perform any additional validation before saving
-                order.OrderDate = DateTime.Now;
+            var availableOriginTypes = context.OriginTypes.ToList();
+            var availableRoastTypes = context.RoastTypes.ToList();
 
+            ViewBag.AvailableOriginTypes = availableOriginTypes;
+            ViewBag.AvailableRoastTypes = availableRoastTypes;
+
+            return View();
+        }
+
+
+        //Post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(string OriginTypeId, int RoastTypeId, string OzQuantity, string submitType)
+        {
+            var userId = GetCurrentUserId();
+            var orderDate = DateTime.Now;
+
+            // Create a new order object
+            var order = new Order
+            {
+                UserId = int.Parse(userId),
+                OrderDate = orderDate,
+                PriceAdjustment = 0,
+                SubtotalCost = 0,
+                TotalCost = 0
+            };
+
+            if (submitType == "addToOrder")
+            {
+                // Format the selected order item
+                var coffee = context.OriginTypes.Find(int.Parse(OriginTypeId));
+                var roastType = RoastTypeId;
+                var ozQuantity = int.Parse(OzQuantity);
+                var orderItemString = $"{coffee.Country} - {coffee.SupplierNotes}, Roast Type: {roastType}, Oz Quantity: {ozQuantity}";
+
+                // Add the selected order item to TempData
+                var orderItems = TempData.ContainsKey("orderItems") ? TempData["orderItems"] as List<string> : new List<string>();
+                orderItems.Add(orderItemString);
+                TempData["orderItems"] = orderItems;
+
+                return RedirectToAction("Create");
+            }
+            else if (submitType == "createOrder")
+            {
+                // Handle creating the order
+                // Add the order to the database
+                order.TotalCost = order.PriceAdjustment + order.SubtotalCost;
                 context.Orders.Add(order);
                 context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("OrderDetail", "Order", order.Id);
             }
-            return View(order);
+            else
+            {
+                // Invalid submit type
+                return RedirectToAction("Create", "Order");
+            }
         }
+
 
         [HttpGet]
         public IActionResult Edit(int? id)
@@ -75,7 +125,7 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Order order)
@@ -108,6 +158,20 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
+
+        [HttpGet]
+        public IActionResult OrderDetail(int id)
+        {
+            var order = context.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.OriginType).FirstOrDefault(o => o.Id == id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
         [HttpGet]
         public IActionResult Delete(int? id)
         {
@@ -125,9 +189,9 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        
+
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             var order = context.Orders.Find(id);
@@ -141,11 +205,20 @@ namespace AppsDevCoffee.Controllers
             return context.Orders.Any(o => o.Id == id);
         }
 
-        public IActionResult NewOrder() 
+        public string GetCurrentUserId()
         {
-            var availableCoffees = context.OriginTypes.ToList();
-            ViewBag.AvailableCoffees = availableCoffees;
-            return View();
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+            // Check if the claim exists and return its value
+            if (userIdClaim != null)
+            {
+                return userIdClaim.Value;
+            }
+            else
+            {
+                // If the claim does not exist, redirect the user to the login action
+                return RedirectToAction("Login", "Account").ToString(); // Assuming Account is the name of your account controller
+            }
         }
     }
 }

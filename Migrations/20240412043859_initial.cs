@@ -14,7 +14,7 @@ namespace AppsDevCoffee.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "InventoryLogs",
+                name: "Logs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -23,7 +23,7 @@ namespace AppsDevCoffee.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InventoryLogs", x => x.Id);
+                    table.PrimaryKey("PK_Logs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,12 +105,12 @@ namespace AppsDevCoffee.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    TotalPaid = table.Column<float>(type: "real", nullable: false),
+                    TotalPaid = table.Column<float>(type: "real", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaidDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SubtotalCost = table.Column<float>(type: "real", nullable: false),
-                    PriceAdjustment = table.Column<float>(type: "real", nullable: false),
-                    TotalCost = table.Column<float>(type: "real", nullable: false)
+                    SubtotalCost = table.Column<float>(type: "real", nullable: true),
+                    PriceAdjustment = table.Column<float>(type: "real", nullable: true),
+                    TotalCost = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,15 +193,15 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "DateAdded", "Email", "FirstName", "Hashed", "LastName", "UserStatus", "UserTypeId", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6105), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
-                    { 2, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6156), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
-                    { 3, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6159), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
+                    { 1, new DateTime(2024, 4, 11, 23, 38, 58, 255, DateTimeKind.Local).AddTicks(7970), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
+                    { 2, new DateTime(2024, 4, 11, 23, 38, 58, 255, DateTimeKind.Local).AddTicks(8020), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
+                    { 3, new DateTime(2024, 4, 11, 23, 38, 58, 255, DateTimeKind.Local).AddTicks(8024), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "OrderDate", "PaidDate", "PriceAdjustment", "SubtotalCost", "TotalCost", "TotalPaid", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 4, 11, 0, 16, 37, 824, DateTimeKind.Local).AddTicks(6246), null, 10f, 90f, 100f, 100f, 1 });
+                values: new object[] { 1, new DateTime(2024, 4, 11, 23, 38, 58, 255, DateTimeKind.Local).AddTicks(8122), null, 0f, 15f, 15f, 15f, 1 });
 
             migrationBuilder.InsertData(
                 table: "OrderItems",
@@ -238,7 +238,7 @@ namespace AppsDevCoffee.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "InventoryLogs");
+                name: "Logs");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");

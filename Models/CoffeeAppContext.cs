@@ -15,8 +15,7 @@ namespace AppsDevCoffee.Models
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<OriginType> OriginTypes { get; set; }
         public DbSet<RoastType> RoastTypes { get; set; }
-        
-        public DbSet<Log> InventoryLogs { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,8 +24,6 @@ namespace AppsDevCoffee.Models
                 new UserType { Id = 2, Description = "Employee" },
                 new UserType { Id = 3, Description = "User" }
             );
-
-
 
 
             modelBuilder.Entity<User>().HasData(
@@ -116,10 +113,10 @@ namespace AppsDevCoffee.Models
                 {
                     RoastTypeId = 3,
                     Description = "Dark",
-                    Active = 1
+                    Active = 1    
                 }
 
-                );
+            );
         
 
             // Seed OrderItems
@@ -141,13 +138,12 @@ namespace AppsDevCoffee.Models
                 {
                     Id = 1,
                     UserId = 1, // Admin user
-                    TotalPaid = 100.0f,
+                    TotalPaid = 15.0f,
                     OrderDate = DateTime.Now,
-                    SubtotalCost = 90.0f,
-                    PriceAdjustment = 10.0f,
-                    TotalCost = 100.0f
+                    SubtotalCost = 15.0f,
+                    PriceAdjustment = 0.0f,
+                    TotalCost = 15.0f
                 }
-                // Add more orders here if needed
             );
 
             // Configure relationships
@@ -155,17 +151,22 @@ namespace AppsDevCoffee.Models
                 .HasOne(o => o.User)
                 .WithMany(u => u.Orders)
                 .HasForeignKey(o => o.UserId);
-
             modelBuilder.Entity<User>()
                 .HasOne(u => u.UserType)
                 .WithMany()
                 .HasForeignKey(u => u.UserTypeId);
-
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Order)
                 .WithMany(o => o.OrderItems)
                 .HasForeignKey(oi => oi.OrderId);
-
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.OriginType)
+                .WithMany()
+                .HasForeignKey(oi => oi.OriginTypeId);
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.RoastType)
+                .WithMany()
+                .HasForeignKey(oi => oi.RoastTypeId);
         }
     }
 }
