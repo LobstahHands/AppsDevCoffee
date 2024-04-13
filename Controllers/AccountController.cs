@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using AppsDevCoffee.Models.AppsDevCoffee.Models;
+using Azure.Identity;
 namespace AppsDevCoffee.Controllers
 {
     public class AccountController(CoffeeAppContext ctx) : Controller
@@ -49,6 +50,16 @@ namespace AppsDevCoffee.Controllers
 
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
+                //log succesful login
+                AccountLog log = new()
+                { 
+                    Username = model.Username,
+                    LoginResult = "Success",
+                    CreatedDate = DateTime.Now
+                };
+                Context.AccountLogs.Add(log);
+                Context.SaveChanges();
+
                 string action = "Index";
                 string controller = "Home";
 
@@ -77,6 +88,16 @@ namespace AppsDevCoffee.Controllers
                 
                 return RedirectToAction(action,controller);
             }
+
+            //log unsuccesful login
+            AccountLog log = new()
+            {
+                Username = model.Username,
+                LoginResult = "Failure",
+                CreatedDate = DateTime.Now
+            };
+            Context.AccountLogs.Add(log);
+            Context.SaveChanges();
 
             ModelState.AddModelError("", "Invalid Username or Password");
             return View(model);

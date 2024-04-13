@@ -15,7 +15,7 @@ namespace AppsDevCoffee.Models
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<OriginType> OriginTypes { get; set; }
         public DbSet<RoastType> RoastTypes { get; set; }
-        public DbSet<Log> Logs { get; set; }
+        public DbSet<AccountLog> AccountLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
