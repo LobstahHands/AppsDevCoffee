@@ -7,8 +7,9 @@ namespace AppsDevCoffee.Models
     {
         [Key]
         public int Id { get; set; }
-        public string LoginResult { get; set; }
+        public string LogResult { get; set; }
         public string Username { get; set; }
+        public string? Email { get; set; }   
         public DateTime CreatedDate { get; set; }
     }
 }

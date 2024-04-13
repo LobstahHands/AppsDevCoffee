@@ -31,7 +31,12 @@ namespace AppsDevCoffee.Controllers
             //string hashedPassword = PasswordHasher.HashPassword(model.Password);
             string hashedPassword = model.Password;
 
-
+            AccountLog accountLog = new()
+            {
+                Username = model.Username,
+                Email = null,
+                CreatedDate = DateTime.Now
+            };
 
             var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Hashed == hashedPassword);
 
@@ -50,14 +55,9 @@ namespace AppsDevCoffee.Controllers
 
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                //log succesful login
-                AccountLog log = new()
-                { 
-                    Username = model.Username,
-                    LoginResult = "Success",
-                    CreatedDate = DateTime.Now
-                };
-                Context.AccountLogs.Add(log);
+                accountLog.Email = user.Email;
+                accountLog.LogResult = "Login Success";
+                Context.AccountLogs.Add(accountLog);
                 Context.SaveChanges();
 
                 string action = "Index";
@@ -90,13 +90,9 @@ namespace AppsDevCoffee.Controllers
             }
 
             //log unsuccesful login
-            AccountLog log = new()
-            {
-                Username = model.Username,
-                LoginResult = "Failure",
-                CreatedDate = DateTime.Now
-            };
-            Context.AccountLogs.Add(log);
+            
+            accountLog.LogResult = "Login Failure";
+            Context.AccountLogs.Add(accountLog);
             Context.SaveChanges();
 
             ModelState.AddModelError("", "Invalid Username or Password");
@@ -120,6 +116,14 @@ namespace AppsDevCoffee.Controllers
         [HttpPost]
         public IActionResult Register(VMRegister model)
         {
+            //Create Log object
+            AccountLog accountLog = new()
+            {
+                Username = model.Username,
+                Email = model.Email,    
+                CreatedDate = DateTime.Now
+            };
+
 
             if (ModelState.IsValid)
             {
@@ -152,12 +156,25 @@ namespace AppsDevCoffee.Controllers
 
                 // Add the user to the database
                 Context.Users.Add(newUser);
+
+                //update log result and add to the databse
+                accountLog.LogResult = "New Registration";
+                Context.AccountLogs.Add(accountLog);
+          
+                //Save Changes
+
                 Context.SaveChanges();
                 
                 // Redirect to login page after successful registration
                 return RedirectToAction("Login");
             }
 
+            //Update Result and add to the db. 
+            accountLog.LogResult = "New Registration";
+            Context.AccountLogs.Add(accountLog);
+
+            //Save Changes
+            Context.SaveChanges();
             // If ModelState is not valid, return the view with validation errors
             return View(model);
         }
@@ -168,7 +185,7 @@ namespace AppsDevCoffee.Controllers
         [HttpGet]
         public IActionResult Edit()
         {
-            var userId = int.Parse(User.Identity.Name); // Assuming the user ID is stored in the Name claim
+            var userId = int.Parse(User.Identity.Name);
             var user = Context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null)
             {
