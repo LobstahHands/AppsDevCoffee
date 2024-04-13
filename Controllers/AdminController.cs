@@ -133,4 +133,15 @@ public class AdminController : Controller
         Context.SaveChanges();
         return RedirectToAction("UserList");
     }
+
+
+    //View Logs
+    public IActionResult AccountLogs()
+    {
+        // Retrieve account logs from the database
+        var logs = Context.AccountLogs.ToList();
+
+        // Pass the logs to the view
+        return View(logs);
+    }
 }

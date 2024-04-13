@@ -1,0 +1,27 @@
+﻿@model IEnumerable<AppsDevCoffee.Models.AccountLog>
+
+<h1>Account Logs</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Log Result</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Created Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var log in Model)
+        {
+            <tr>
+                <td>@log.Id</td>
+                <td>@log.LogResult</td>
+                <td>@log.Username</td>
+                <td>@(log.Email ?? "N/A")</td>
+                <td>@log.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+    </tbody>
+</table>
