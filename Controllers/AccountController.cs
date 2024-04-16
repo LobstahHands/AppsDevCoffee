@@ -101,6 +101,23 @@ namespace AppsDevCoffee.Controllers
         //Logout  - Absolute savage. instant logout. no confirmation. 
         public IActionResult Logout()
         {
+            User user = new();
+
+            int userId;
+            if (int.TryParse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out userId))
+            {
+                user = Context.Users.FirstOrDefault(x => x.Id == userId);
+            }
+            
+            //Create Log object
+            AccountLog accountLog = new()
+            {
+                Username = user.Username,
+                Email = user.Email,
+                LogResult = "Logout",
+                CreatedDate = DateTime.Now
+            };
+
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
             return RedirectToAction("Login");
         }

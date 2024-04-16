@@ -6,13 +6,12 @@
 
 <h1>Create Order</h1>
 
-@using (Html.BeginForm("Create", "Order", FormMethod.Post))
-{
     <div class="row">
         <div class="col-md-6">
+            <form asp-controller="Order" asp-action="CreateOrderItem" method="post">
             <div class="form-group">
                 <label>Select Coffee:</label>
-                <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId">
+                <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId"> @* Replace asp-for with name if not working *@
                     @foreach (var coffee in ViewBag.AvailableOriginTypes)
                     {
                         <option value="@coffee.OriginTypeId">@coffee.Country - @coffee.SupplierNotes</option>
@@ -46,12 +45,17 @@
             </div>
 
             <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Order</button>
+
+            </form>
         </div>
+
         <div class="col-md-6">
             <div id="orderItemsBox" class="border p-2">
                 <h4>Order Items</h4>
                 <ul id="orderItemsList">
-                    @* @if (TempData.ContainsKey("orderItems") && TempData["orderItems"] != null)
+                   @*
+                   use session here likely    
+                   @if (TempData.ContainsKey("orderItems") && TempData["orderItems"] != null)
                     {
                         foreach (var item in TempData["orderItems"] as List<string>)
                         {
@@ -62,7 +66,5 @@
             </div>
         </div>
     </div>
-
     <button type="submit" name="submitType" value="createOrder" class="btn btn-success">Create Order</button>
     <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
-}

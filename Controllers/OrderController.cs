@@ -58,10 +58,12 @@ namespace AppsDevCoffee.Controllers
         }
 
 
+
+
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string OriginTypeId, int RoastTypeId, string OzQuantity, string submitType)
+        public IActionResult CreateOrderItem(OrderItem orderItem)
         {
             var userId = GetCurrentUserId();
             var orderDate = DateTime.Now;
@@ -75,14 +77,19 @@ namespace AppsDevCoffee.Controllers
                 SubtotalCost = 0,
                 TotalCost = 0
             };
+            //ID only created when added to DB
 
-            if (submitType == "addToOrder")
+            //Add blank order to DB.
+            context.Orders.Add(order);
+            context.SaveChanges();
+
+            if (true /*submitType == "addToOrder"*/)
             {
                 // Format the selected order item
-                var coffee = context.OriginTypes.Find(int.Parse(OriginTypeId));
-                var roastType = RoastTypeId;
-                var ozQuantity = int.Parse(OzQuantity);
-                var orderItemString = $"{coffee.Country} - {coffee.SupplierNotes}, Roast Type: {roastType}, Oz Quantity: {ozQuantity}";
+                var originType = context.OriginTypes.Find(orderItem.OriginTypeId);
+                var roastType = context.RoastTypes.Find(orderItem.RoastTypeId);
+                string ozQuantity = orderItem.OzQuantity.ToString();
+                var orderItemString = $"{originType.Country} - {originType.SupplierNotes}, Roast Type: {roastType.Description}, Oz Quantity: {ozQuantity}";
 
                 // Add the selected order item to TempData
                 var orderItems = TempData.ContainsKey("orderItems") ? TempData["orderItems"] as List<string> : new List<string>();
@@ -91,7 +98,7 @@ namespace AppsDevCoffee.Controllers
 
                 return RedirectToAction("Create");
             }
-            else if (submitType == "createOrder")
+            else
             {
                 // Handle creating the order
                 // Add the order to the database
@@ -101,11 +108,11 @@ namespace AppsDevCoffee.Controllers
 
                 return RedirectToAction("OrderDetail", "Order", order.Id);
             }
-            else
+            /*else
             {
                 // Invalid submit type
                 return RedirectToAction("Create", "Order");
-            }
+            }*/
         }
 
 
