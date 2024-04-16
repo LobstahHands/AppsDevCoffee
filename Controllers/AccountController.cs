@@ -40,7 +40,7 @@ namespace AppsDevCoffee.Controllers
 
             var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Hashed == hashedPassword);
 
-            if (user != null && user.UserStatus=="Active"/*&& PasswordHasher.VerifyPassword(user.Hashed,hashedPassword)*/)
+            if (user != null && user.UserStatus == "Active"/*&& PasswordHasher.VerifyPassword(user.Hashed,hashedPassword)*/)
             {
                 var claims = new[]
                 {
@@ -71,7 +71,7 @@ namespace AppsDevCoffee.Controllers
                         break;
                     case 2:
                         action = "Index";
-                        controller= "Home";
+                        controller = "Home";
                         break;
                     case 3:
                         action = "Index";
@@ -83,20 +83,31 @@ namespace AppsDevCoffee.Controllers
                         break;
                 }
 
-                 action = "Index";
-                 controller = "Admin";
-                
-                return RedirectToAction(action,controller);
-            }
+                action = "Index";
+                controller = "Admin";
 
-            //log unsuccesful login
-            
-            accountLog.LogResult = "Login Failure";
-            Context.AccountLogs.Add(accountLog);
-            Context.SaveChanges();
-            
-            ModelState.AddModelError("", "Invalid Username or Password");
-            return View(model);
+                return RedirectToAction(action, controller);
+            }
+            else if (user.UserStatus == "Active")
+            {
+                accountLog.LogResult = "Blocked Login - Pending User";
+                Context.AccountLogs.Add(accountLog);
+                Context.SaveChanges();
+
+                ModelState.AddModelError("", "Account Pending, Unable to Login.");
+                return View(model);
+            }
+            else
+            {
+                //log unsuccesful login
+
+                accountLog.LogResult = "Login Failure";
+                Context.AccountLogs.Add(accountLog);
+                Context.SaveChanges();
+
+                ModelState.AddModelError("", "Invalid Username or Password");
+                return View(model);
+            }  
         }
         //Logout  - Absolute savage. instant logout. no confirmation. 
         public IActionResult Logout()
