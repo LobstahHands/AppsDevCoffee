@@ -94,7 +94,7 @@ namespace AppsDevCoffee.Controllers
             accountLog.LogResult = "Login Failure";
             Context.AccountLogs.Add(accountLog);
             Context.SaveChanges();
-
+            
             ModelState.AddModelError("", "Invalid Username or Password");
             return View(model);
         }

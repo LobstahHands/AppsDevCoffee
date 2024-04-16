@@ -48,71 +48,83 @@ namespace AppsDevCoffee.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var availableOriginTypes = context.OriginTypes.ToList();
-            var availableRoastTypes = context.RoastTypes.ToList();
+            SetViewTypes();
 
-            ViewBag.AvailableOriginTypes = availableOriginTypes;
-            ViewBag.AvailableRoastTypes = availableRoastTypes;
+            // Initialize OrderItems if null
+            var createItemViewModel = new CreateItemViewModel
+            {
+                OrderItems = HttpContext.Session.Get<List<OrderItem>>("OrderItems") ?? []
+            };
 
-            return View();
+            return View(createItemViewModel);
         }
-
-
-
 
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateOrderItem(OrderItem orderItem)
+        public IActionResult CreateItem(CreateItemViewModel createItemViewModel)
+        {
+            SetViewTypes();
+            if (ModelState.IsValid)
+            {
+                var orderItem = new OrderItem
+                {
+                    OriginTypeId = createItemViewModel.OriginTypeId,
+                    RoastTypeId = createItemViewModel.RoastTypeId,
+                    OzQuantity = createItemViewModel.OzQuantity
+                };
+
+                orderItem.CalculateSubtotal();
+
+                // Retrieve order items from session
+                var orderItems = HttpContext.Session.Get<List<OrderItem>>("OrderItems") ?? new List<OrderItem>();
+                orderItems.Add(orderItem);
+
+                // Store order items in session
+                HttpContext.Session.Set("OrderItems", orderItems);
+
+                // Pass order items to the view
+                createItemViewModel.OrderItems = orderItems;
+            }
+
+            // Handle invalid model state
+            return View("Create", createItemViewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult CreateOrder()
         {
             var userId = GetCurrentUserId();
-            var orderDate = DateTime.Now;
 
             // Create a new order object
             var order = new Order
             {
                 UserId = int.Parse(userId),
-                OrderDate = orderDate,
-                PriceAdjustment = 0,
-                SubtotalCost = 0,
-                TotalCost = 0
+                OrderDate = DateTime.Now,
+                PriceAdjustment = 0
             };
-            //ID only created when added to DB
 
-            //Add blank order to DB.
-            context.Orders.Add(order);
-            context.SaveChanges();
+            // Retrieve order items from session
+            var orderItems = HttpContext.Session.Get<List<OrderItem>>("OrderItems");
 
-            if (true /*submitType == "addToOrder"*/)
+            if (orderItems != null && orderItems.Any())
             {
-                // Format the selected order item
-                var originType = context.OriginTypes.Find(orderItem.OriginTypeId);
-                var roastType = context.RoastTypes.Find(orderItem.RoastTypeId);
-                string ozQuantity = orderItem.OzQuantity.ToString();
-                var orderItemString = $"{originType.Country} - {originType.SupplierNotes}, Roast Type: {roastType.Description}, Oz Quantity: {ozQuantity}";
+                order.SubtotalCost = orderItems.Sum(item => item.Subtotal);
 
-                // Add the selected order item to TempData
-                var orderItems = TempData.ContainsKey("orderItems") ? TempData["orderItems"] as List<string> : new List<string>();
-                orderItems.Add(orderItemString);
-                TempData["orderItems"] = orderItems;
-
-                return RedirectToAction("Create");
+                // Clear order items from session
+                HttpContext.Session.Remove("OrderItems");
             }
             else
             {
-                // Handle creating the order
-                // Add the order to the database
-                order.TotalCost = order.PriceAdjustment + order.SubtotalCost;
-                context.Orders.Add(order);
-                context.SaveChanges();
-
-                return RedirectToAction("OrderDetail", "Order", order.Id);
+                order.SubtotalCost = 0;
             }
-            /*else
-            {
-                // Invalid submit type
-                return RedirectToAction("Create", "Order");
-            }*/
+
+            order.TotalCost = order.PriceAdjustment + order.SubtotalCost;
+            context.Orders.Add(order);
+            context.SaveChanges();
+
+            return View();
         }
 
 
@@ -227,5 +239,18 @@ namespace AppsDevCoffee.Controllers
                 return RedirectToAction("Login", "Account").ToString(); // Assuming Account is the name of your account controller
             }
         }
+
+
+        private void SetViewTypes()
+        {
+            var availableOriginTypes = context.OriginTypes.ToList();
+            var availableRoastTypes = context.RoastTypes.ToList();
+
+            ViewBag.AvailableOriginTypes = availableOriginTypes;
+            ViewBag.AvailableRoastTypes = availableRoastTypes;
+        }
+
+
+
     }
 }

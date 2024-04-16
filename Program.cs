@@ -21,6 +21,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                                               
     });
 
+//Add Session
+builder.Services.AddSession();
 
 // Add authorization
 builder.Services.AddAuthorization(options =>
@@ -47,7 +49,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(

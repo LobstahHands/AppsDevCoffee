@@ -132,8 +132,8 @@ namespace AppsDevCoffee.Migrations
                 {
                     OrderItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    OriginTypeId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    OriginTypeId = table.Column<int>(type: "int", nullable: true),
                     RoastTypeId = table.Column<int>(type: "int", nullable: false),
                     OzQuantity = table.Column<float>(type: "real", nullable: false),
                     Subtotal = table.Column<float>(type: "real", nullable: false)
@@ -145,14 +145,12 @@ namespace AppsDevCoffee.Migrations
                         name: "FK_OrderItems_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_OrderItems_OriginTypes_OriginTypeId",
                         column: x => x.OriginTypeId,
                         principalTable: "OriginTypes",
-                        principalColumn: "OriginTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "OriginTypeId");
                     table.ForeignKey(
                         name: "FK_OrderItems_RoastTypes_RoastTypeId",
                         column: x => x.RoastTypeId,
@@ -196,15 +194,15 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "DateAdded", "Email", "FirstName", "Hashed", "LastName", "UserStatus", "UserTypeId", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(5805), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
-                    { 2, new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(5909), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
-                    { 3, new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(5913), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
+                    { 1, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(190), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
+                    { 2, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(236), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
+                    { 3, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(238), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "OrderDate", "PaidDate", "PriceAdjustment", "SubtotalCost", "TotalCost", "TotalPaid", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(6031), null, 0f, 15f, 15f, 15f, 1 });
+                values: new object[] { 1, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(354), null, 0f, 15f, 15f, 15f, 1 });
 
             migrationBuilder.InsertData(
                 table: "OrderItems",

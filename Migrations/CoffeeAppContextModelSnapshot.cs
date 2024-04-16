@@ -88,7 +88,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            OrderDate = new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(6031),
+                            OrderDate = new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(354),
                             PriceAdjustment = 0f,
                             SubtotalCost = 15f,
                             TotalCost = 15f,
@@ -105,10 +105,10 @@ namespace AppsDevCoffee.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
 
-                    b.Property<int>("OrderId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OriginTypeId")
+                    b.Property<int?>("OriginTypeId")
                         .HasColumnType("int");
 
                     b.Property<float>("OzQuantity")
@@ -289,7 +289,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            DateAdded = new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(5805),
+                            DateAdded = new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(190),
                             Email = "admin@example.com",
                             FirstName = "Admin",
                             Hashed = "PassPass1!",
@@ -301,7 +301,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            DateAdded = new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(5909),
+                            DateAdded = new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(236),
                             Email = "john@example.com",
                             FirstName = "JohnTest",
                             Hashed = "PassPass1!",
@@ -313,7 +313,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 3,
-                            DateAdded = new DateTime(2024, 4, 13, 14, 45, 35, 940, DateTimeKind.Local).AddTicks(5913),
+                            DateAdded = new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(238),
                             Email = "jane@example.com",
                             FirstName = "JaneTest",
                             Hashed = "PassPass1!",
@@ -385,15 +385,11 @@ namespace AppsDevCoffee.Migrations
                 {
                     b.HasOne("AppsDevCoffee.Models.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("AppsDevCoffee.Models.OriginType", "OriginType")
                         .WithMany()
-                        .HasForeignKey("OriginTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OriginTypeId");
 
                     b.HasOne("AppsDevCoffee.Models.RoastType", "RoastType")
                         .WithMany()

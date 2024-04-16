@@ -3,8 +3,8 @@
     public class OrderItem
     {
         public int OrderItemId { get; set; }
-        public int OrderId { get; set; }
-        public int OriginTypeId { get; set; }
+        public int? OrderId { get; set; }
+        public int? OriginTypeId { get; set; }
         public int RoastTypeId { get; set; }
         public float OzQuantity { get; set; }
         public float Subtotal { get; set; }

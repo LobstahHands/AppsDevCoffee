@@ -28,13 +28,22 @@ namespace AppsDevCoffee.Controllers
 
         private async Task GetHomePicture()
         {
-            var response = await httpClient.GetAsync("Random");
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                var response = await httpClient.GetAsync("/random.json");
+                response.EnsureSuccessStatusCode();
 
-            var json = await response.Content.ReadAsStringAsync(); 
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(json);
+                var json = await response.Content.ReadAsStringAsync();
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(json);
 
-            ViewBag.HomePicture = data.file;
+                ViewBag.HomePicture = data.file;
+            }
+            catch (HttpRequestException ex)
+            {
+                // Log or handle the exception
+                ViewBag.HomePicture = "/images/cup_white.jpg";
+            }
         }
+
     }
 }

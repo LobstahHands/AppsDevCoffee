@@ -1,5 +1,5 @@
-﻿@model OrderItem
-
+﻿@model CreateItemViewModel
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Create Order";
 }
@@ -8,7 +8,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form asp-controller="Order" asp-action="CreateOrderItem" method="post">
+            <form asp-controller="Order" asp-action="CreateItem" method="post">
             <div class="form-group">
                 <label>Select Coffee:</label>
                 <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId"> @* Replace asp-for with name if not working *@
@@ -44,6 +44,7 @@
                 </div>
             </div>
 
+
             <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Order</button>
 
             </form>
@@ -53,15 +54,13 @@
             <div id="orderItemsBox" class="border p-2">
                 <h4>Order Items</h4>
                 <ul id="orderItemsList">
-                   @*
-                   use session here likely    
-                   @if (TempData.ContainsKey("orderItems") && TempData["orderItems"] != null)
+                @if (Model.OrderItems != null)
+                {
+                    foreach (var item in Model.OrderItems)
                     {
-                        foreach (var item in TempData["orderItems"] as List<string>)
-                        {
-                            <li>@item</li>
-                        }
-                    } *@
+                        <li>@item.OriginType.Country - $@item.Subtotal</li>
+                    }
+                } 
                 </ul>
             </div>
         </div>
