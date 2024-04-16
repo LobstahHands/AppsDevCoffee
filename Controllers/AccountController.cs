@@ -102,7 +102,13 @@ namespace AppsDevCoffee.Controllers
         public IActionResult Logout()
         {
             User user = new();
-            user = Context.Users.Find(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier));
+
+            int userId;
+            if (int.TryParse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out userId))
+            {
+                user = Context.Users.FirstOrDefault(x => x.Id == userId);
+            }
+            
             //Create Log object
             AccountLog accountLog = new()
             {
