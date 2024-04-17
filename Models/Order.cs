@@ -8,7 +8,7 @@
         public float? TotalPaid { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime? PaidDate { get; set; }
-        public string? OrderStatus { get; set; }
+        public string OrderStatus { get; set; }
         public float? SubtotalCost { get; set; }
         public float? PriceAdjustment { get; set; }
         public float? TotalCost { get; set; }

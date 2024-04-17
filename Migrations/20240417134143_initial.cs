@@ -195,9 +195,9 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "DateAdded", "Email", "FirstName", "Hashed", "LastName", "UserStatus", "UserTypeId", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4226), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
-                    { 2, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4304), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
-                    { 3, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4309), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
+                    { 1, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4828), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
+                    { 2, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4870), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
+                    { 3, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4873), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
                 });
 
             migrationBuilder.InsertData(
@@ -205,8 +205,8 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "OrderDate", "OrderStatus", "PaidDate", "PriceAdjustment", "SubtotalCost", "TotalCost", "TotalPaid", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4515), "Filled", null, 0f, 15f, 15f, 15f, 1 },
-                    { 2, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4525), "Pending", null, 0f, 25f, 25f, 0f, 1 }
+                    { 1, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4981), "Filled", null, 0f, 15f, 15f, 15f, 1 },
+                    { 2, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4986), "Pending", null, 0f, 25f, 25f, 0f, 1 }
                 });
 
             migrationBuilder.InsertData(

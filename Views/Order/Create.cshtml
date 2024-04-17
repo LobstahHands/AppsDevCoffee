@@ -58,12 +58,22 @@
                 {
                     foreach (var item in Model.OrderItems)
                     {
-                        <li>Origin Id:@item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal</li>
+                        <li style="display: flex;">Origin Id:@item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal &nbsp;
+                            <form asp-controller="Order" asp-action="RemoveOrderItem" method="post">
+                                <input type="hidden" name="originTypeId" value="@item.OriginTypeId" />
+                                <input type="hidden" name="roastId" value="@item.RoastTypeId" />
+                                <input type="hidden" name="ozQuantity" value="@item.OzQuantity" />
+                                <button type="submit" class="btn btn-danger btn-sm">X</button>
+                            </form>
+                        </li>
                     }
                 } 
                 </ul>
             </div>
         </div>
     </div>
-    <button type="submit" name="submitType" value="createOrder" class="btn btn-success">Create Order</button>
-    <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
+    <form asp-action="CreateOrder" asp-controller="Order">
+        <button type="submit" name="submitType" value="CreateOrder" class="btn btn-success">Create Order</button>
+        <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
+    </form>
+    

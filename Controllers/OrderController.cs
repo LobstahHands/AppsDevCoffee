@@ -27,7 +27,7 @@ namespace AppsDevCoffee.Controllers
             if (!int.TryParse(userIdClaim.Value, out int userId))
             {
                 // Unable to parse user ID, handle accordingly
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Logout", "Account");
             }
 
             // Retrieve orders for the logged-in user
@@ -96,6 +96,46 @@ namespace AppsDevCoffee.Controllers
 
 
         [HttpPost]
+        public IActionResult RemoveOrderItem(int? originTypeId = null, int? ozQuantity = null, int? roastId = null)
+        {
+            // Retrieve the list of order items from session
+            var orderItems = HttpContext.Session.Get<List<OrderItem>>("OrderItems");
+            string action = "Create";
+
+            if (orderItems != null)
+            {
+                if (originTypeId.HasValue && ozQuantity.HasValue && roastId.HasValue)
+                {
+                    // Find and remove the specific order item
+                    var orderItemToRemove = orderItems
+                        .FirstOrDefault(item => item.OriginTypeId == originTypeId && item.OzQuantity == ozQuantity && item.RoastTypeId == roastId);
+
+                    if (orderItemToRemove != null)
+                    {
+                        orderItems.Remove(orderItemToRemove);
+                    }
+                }
+                else
+                {
+                    // Remove all order items
+                    orderItems.Clear();
+                    action = "Index"; //Navigate back out
+
+                }
+
+                // Update the order items in session
+                HttpContext.Session.Set("OrderItems", orderItems);
+            }
+
+            // Redirect back to the same page or another appropriate action
+            return RedirectToAction(action);
+        }
+
+
+
+
+
+        [HttpPost]
         public IActionResult CreateOrder()
         {
             var userId = GetCurrentUserId();
@@ -105,7 +145,8 @@ namespace AppsDevCoffee.Controllers
             {
                 UserId = int.Parse(userId),
                 OrderDate = DateTime.Now,
-                PriceAdjustment = 0
+                PriceAdjustment = 1,
+                OrderStatus = "Pending"
             };
 
             // Retrieve order items from session
@@ -120,14 +161,14 @@ namespace AppsDevCoffee.Controllers
             }
             else
             {
-                order.SubtotalCost = 0;
+                return RedirectToAction("Index","Home");
             }
 
-            order.TotalCost = order.PriceAdjustment + order.SubtotalCost;
+            order.TotalCost = order.PriceAdjustment * order.SubtotalCost;
             context.Orders.Add(order);
             context.SaveChanges();
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
 

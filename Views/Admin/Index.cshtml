@@ -5,10 +5,16 @@
 <h2>@ViewData["Title"]</h2>
 
 <!-- Hidden divs to contain the pop-up content -->
-<div>
-    @Html.Partial("PendingOrderList", (IEnumerable<Order>)Model.PendingOrders)
-</div>
+@if (Model.PendingOrders != null)
+{
+    <div>
+        @Html.Partial("PendingOrderList", (IEnumerable<Order>)Model.PendingOrders)
+    </div>
+}
 
-<div>
-    @Html.Partial("PendingUserList", (IEnumerable<User>)Model.PendingUsers)
-</div>
+@if (Model.PendingUsers != null)
+{
+    <div>
+        @Html.Partial("PendingUserList", (IEnumerable<User>)Model.PendingUsers)
+    </div>
+}
