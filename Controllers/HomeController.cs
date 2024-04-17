@@ -1,7 +1,4 @@
-using AppsDevCoffee.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System.Diagnostics;
 using Newtonsoft.Json;
 
 namespace AppsDevCoffee.Controllers

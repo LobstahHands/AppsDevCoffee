@@ -140,11 +140,23 @@ namespace AppsDevCoffee.Models
                     UserId = 1, // Admin user
                     TotalPaid = 15.0f,
                     OrderDate = DateTime.Now,
+                    OrderStatus = "Filled",
                     SubtotalCost = 15.0f,
                     PriceAdjustment = 0.0f,
                     TotalCost = 15.0f
+                },
+                new Order
+                {
+                    Id = 2,
+                    UserId = 1, // Admin user
+                    TotalPaid = 0.0f,
+                    OrderDate = DateTime.Now,
+                    OrderStatus = "Pending",
+                    SubtotalCost = 25.0f,
+                    PriceAdjustment = 0.0f,
+                    TotalCost = 25.0f
                 }
-            );
+            ); 
 
             // Configure relationships
             modelBuilder.Entity<Order>()

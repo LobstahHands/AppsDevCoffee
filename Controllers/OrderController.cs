@@ -64,12 +64,15 @@ namespace AppsDevCoffee.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateItem(CreateItemViewModel createItemViewModel)
         {
+            ModelState.Remove("OrderItems");
             SetViewTypes();
             if (ModelState.IsValid)
             {
+                int orderTypeIdConverted = (int)createItemViewModel.OriginTypeId;
                 var orderItem = new OrderItem
                 {
-                    OriginTypeId = createItemViewModel.OriginTypeId,
+                    OriginTypeId = orderTypeIdConverted,
+                    OriginType = context.OriginTypes.Find(orderTypeIdConverted),
                     RoastTypeId = createItemViewModel.RoastTypeId,
                     OzQuantity = createItemViewModel.OzQuantity
                 };
