@@ -15,7 +15,20 @@ public class AdminController : Controller
 
     public IActionResult index()
     {
-        return View();
+        // Fetch pending users
+        var pendingUsers = Context.Users.Where(u => u.UserStatus == "Pending").ToList();
+
+        // Fetch pending orders
+        var pendingOrders = Context.Orders.Where(o => o.OrderStatus == "Pending").ToList();
+
+        // Pass the data to the view
+        var viewModel = new AdminIndexViewModel
+        {
+            PendingUsers = pendingUsers,
+            PendingOrders = pendingOrders
+        };
+
+        return View(viewModel);
     }
 
     public IActionResult UserList()
@@ -144,4 +157,50 @@ public class AdminController : Controller
         // Pass the logs to the view
         return View(logs);
     }
+
+    [HttpGet]
+    public IActionResult PendingOrderList()
+    {
+        // Fetch pending orders data from your database or wherever it's stored
+        var pendingOrders = Context.Orders.Where(o => o.OrderStatus == "Pending").ToList();
+
+
+        // Pass the pending orders data to the view
+        return View(pendingOrders);
+    }
+    [HttpPost]
+    public IActionResult PendingOrderList(int orderId)
+    {
+        // Retrieve the order from your context
+        var order = Context.Orders.FirstOrDefault(o => o.Id == orderId);
+
+        // Check if the order exists
+        if (order == null)
+        {
+            // Handle the case where the order doesn't exist
+            return NotFound(); 
+        }
+
+        // Update the order status to "filled"
+        order.OrderStatus = "Filled"; 
+
+        // Save changes back to the context
+        Context.SaveChanges();
+
+        // Redirect back to the PendingOrders view
+        return RedirectToAction("PendingOrderList");
+    }
+
+
+    // Action method for rendering the PendingUsers view
+    public IActionResult PendingUserList()
+    {
+        // Fetch pending users data from your database or wherever it's stored
+        var pendingUsers = ""; // Retrieve pending users here
+
+            // Pass the pending users data to the view
+            return View(pendingUsers);
+    }
+
+
 }

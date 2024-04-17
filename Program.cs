@@ -21,6 +21,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                                               
     });
 
+//Add cache
+builder.Services.AddMemoryCache();
 //Add Session
 builder.Services.AddSession();
 
@@ -30,6 +32,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy =>
         policy.RequireClaim("UserTypeId", "1"));
 });
+
 
 
 // Add services to the container.

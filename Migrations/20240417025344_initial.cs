@@ -111,6 +111,7 @@ namespace AppsDevCoffee.Migrations
                     TotalPaid = table.Column<float>(type: "real", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaidDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubtotalCost = table.Column<float>(type: "real", nullable: true),
                     PriceAdjustment = table.Column<float>(type: "real", nullable: true),
                     TotalCost = table.Column<float>(type: "real", nullable: true)
@@ -194,15 +195,19 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "DateAdded", "Email", "FirstName", "Hashed", "LastName", "UserStatus", "UserTypeId", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(190), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
-                    { 2, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(236), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
-                    { 3, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(238), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
+                    { 1, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4226), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
+                    { 2, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4304), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
+                    { 3, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4309), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "OrderDate", "PaidDate", "PriceAdjustment", "SubtotalCost", "TotalCost", "TotalPaid", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 4, 16, 15, 21, 20, 427, DateTimeKind.Local).AddTicks(354), null, 0f, 15f, 15f, 15f, 1 });
+                columns: new[] { "Id", "OrderDate", "OrderStatus", "PaidDate", "PriceAdjustment", "SubtotalCost", "TotalCost", "TotalPaid", "UserId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4515), "Filled", null, 0f, 15f, 15f, 15f, 1 },
+                    { 2, new DateTime(2024, 4, 16, 21, 53, 44, 49, DateTimeKind.Local).AddTicks(4525), "Pending", null, 0f, 25f, 25f, 0f, 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "OrderItems",
