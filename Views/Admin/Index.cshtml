@@ -1,4 +1,14 @@
 ﻿@model AdminIndexViewModel
-<p>Users</p>
-<p>Orders</p>
-@Html.Partial("PendingOrderList")
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+<h2>@ViewData["Title"]</h2>
+
+<!-- Hidden divs to contain the pop-up content -->
+<div>
+    @Html.Partial("PendingOrderList", (IEnumerable<Order>)Model.PendingOrders)
+</div>
+
+<div>
+    @Html.Partial("PendingUserList", (IEnumerable<User>)Model.PendingUsers)
+</div>
