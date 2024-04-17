@@ -1,19 +1,4 @@
 ﻿@model AdminIndexViewModel
-
-
-<div class="container mt-5">
-    <h2>Welcome to Admin Dashboard</h2>
-
-    <div class="tab-content mt-3">
-        <div class="content">
-            <h4>Users Content Goes Here</h4>
-            @Html.Partial("PendingUserList", Model.PendingUsers)
-            <p>User Content</p>
-        </div>
-        <div class="content">
-            <h4>Orders Content Goes Here</h4>
-            @Html.Partial("PendingOrderList", Model.PendingOrders)
-            <p>Order Content</p>
-        </div>
-    </div>
-</div>
+<p>Users</p>
+<p>Orders</p>
+@Html.Partial("PendingOrderList")
