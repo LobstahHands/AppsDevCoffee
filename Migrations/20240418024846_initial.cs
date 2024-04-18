@@ -111,7 +111,7 @@ namespace AppsDevCoffee.Migrations
                     TotalPaid = table.Column<float>(type: "real", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaidDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubtotalCost = table.Column<float>(type: "real", nullable: true),
                     PriceAdjustment = table.Column<float>(type: "real", nullable: true),
                     TotalCost = table.Column<float>(type: "real", nullable: true)
@@ -195,9 +195,9 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "DateAdded", "Email", "FirstName", "Hashed", "LastName", "UserStatus", "UserTypeId", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4828), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
-                    { 2, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4870), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
-                    { 3, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4873), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Active", 3, "jane" }
+                    { 1, new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5802), "admin@example.com", "Admin", "PassPass1!", "User", "Active", 1, "admin" },
+                    { 2, new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5849), "john@example.com", "JohnTest", "PassPass1!", "Doe", "Active", 2, "john" },
+                    { 3, new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5853), "jane@example.com", "JaneTest", "PassPass1!", "Doe", "Pending", 3, "jane" }
                 });
 
             migrationBuilder.InsertData(
@@ -205,8 +205,8 @@ namespace AppsDevCoffee.Migrations
                 columns: new[] { "Id", "OrderDate", "OrderStatus", "PaidDate", "PriceAdjustment", "SubtotalCost", "TotalCost", "TotalPaid", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4981), "Filled", null, 0f, 15f, 15f, 15f, 1 },
-                    { 2, new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4986), "Pending", null, 0f, 25f, 25f, 0f, 1 }
+                    { 1, new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5974), "Filled", null, 0f, 15f, 15f, 15f, 1 },
+                    { 2, new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5981), "Pending", null, 0f, 25f, 25f, 0f, 1 }
                 });
 
             migrationBuilder.InsertData(

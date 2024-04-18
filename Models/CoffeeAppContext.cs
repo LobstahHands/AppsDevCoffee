@@ -60,7 +60,7 @@ namespace AppsDevCoffee.Models
                     UserTypeId = 3,
                     Username = "jane",
                     Hashed = "PassPass1!", // Replace with hashed password
-                    UserStatus = "Active",
+                    UserStatus = "Pending",
                     DateAdded = DateTime.Now
                 }
             );

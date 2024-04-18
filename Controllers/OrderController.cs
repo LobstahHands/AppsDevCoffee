@@ -168,7 +168,32 @@ namespace AppsDevCoffee.Controllers
             context.Orders.Add(order);
             context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            HttpContext.Session.SetInt32("OrderTotalCost", (int)order.TotalCost);
+            HttpContext.Session.SetInt32("OrderId", order.Id);
+
+            return RedirectToAction("OrderPayment");
+        }
+
+        // GET: OrderPayment
+        public IActionResult OrderPayment()
+        {
+            // Get ViewBag properties for the view
+            var totalCost = HttpContext.Session.GetInt32("OrderTotalCost");
+            var orderId = HttpContext.Session.GetInt32("OrderId");
+
+            // Check if the ViewBag properties are null
+            if (totalCost == null || orderId == null)
+            {
+                // Redirect to an error page or handle the situation appropriately
+                return RedirectToAction("Error");
+            }
+
+            // Pass ViewBag properties to the view
+            ViewBag.TotalCost = totalCost;
+            ViewBag.OrderId = orderId;
+
+            // Return the OrderPayment view
+            return View();
         }
 
 

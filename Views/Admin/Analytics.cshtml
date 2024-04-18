@@ -1,0 +1,25 @@
+﻿@model AppsDevCoffee.Models.AnalyticsViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics</title>
+</head>
+<body>
+    <h2>Analytics</h2>
+
+    <div>
+        <h3>Period: @Model.StartOfAnalytics.ToShortDateString() - @DateTime.Now.ToShortDateString()</h3>
+        <p>Number of Weeks Since Start of Analytics: @Model.WeeksSinceStartOfYear</p>
+        <p>Count of Orders: @Model.CountOfOrders</p>
+        <p>Count of Order Items: @Model.CountOfOrderItems</p>
+        <p>Sum of Total Cost: @Model.SumOfTotalCost.ToString("C")</p>
+        <p>Sum of Total Paid: @Model.SumOfTotalPaid.ToString("C")</p>
+        <p>Avg Orders Per Week: @Model.AvgOrdersPerWeek</p>
+        <p>Avg Order Items Per Week: @Model.AvgOrderItemsPerWeek</p>
+        <p>Avg Items Per Order: @Model.AvgItemsPerOrder</p>
+        <p>Avg Cost Per Order: @Model.AvgCostPerOrder.ToString("C")</p>
+        <p>Unpaid Order Total: @Model.UnpaidOrderTotal.ToString("C")</p>
+    </div>
+</body>
+</html>

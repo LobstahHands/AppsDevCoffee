@@ -4,7 +4,6 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<!-- Hidden divs to contain the pop-up content -->
 @if (Model.PendingOrders != null)
 {
     <div>
@@ -12,9 +11,12 @@
     </div>
 }
 
+@* Add unpaid orders as well? *@
+
 @if (Model.PendingUsers != null)
 {
     <div>
         @Html.Partial("PendingUserList", (IEnumerable<User>)Model.PendingUsers)
     </div>
 }
+

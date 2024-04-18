@@ -2,6 +2,7 @@
 using AppsDevCoffee.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.Elfie.Extensions;
 
 [Authorize(Policy = "AdminOnly")]
 public class AdminController : Controller
@@ -203,4 +204,50 @@ public class AdminController : Controller
     }
 
 
+    public IActionResult Analytics()
+    {
+
+        //All analytics are since the oldest order
+
+        // Calculate the number of weeks since January 1st
+        DateTime startOfAnalytics = Context.Orders.Min(o => o.OrderDate); 
+        int weeksSinceStartOfAnalytics = (int)Math.Ceiling((DateTime.Now - startOfAnalytics).TotalDays / 7);
+        // Calculate the count of orders
+        var countOfOrders = Context.Orders.Where(o=>o.OrderDate >= startOfAnalytics).Count();
+        var countOfOrderItems = Context.OrderItems.Where(o => o.Order.OrderDate >= startOfAnalytics).Count();
+        float sumOfTotalCost = (float)Context.Orders.Sum(o => o.TotalCost);
+        float sumOfTotalPaid = (float)Context.Orders.Sum(o => o.TotalPaid);
+
+        var avgOrdersPerWeek = countOfOrders / weeksSinceStartOfAnalytics;
+        var avgOrderItemsPerWeek = countOfOrders / weeksSinceStartOfAnalytics;
+        var avgItemsPerOrder = countOfOrderItems / countOfOrders;
+        var avgCostPerOrder = sumOfTotalCost / countOfOrders;
+        var unpaidOrderTotal = sumOfTotalCost - sumOfTotalPaid;
+        
+
+
+
+            // Pass the results to the view
+        var model = new AnalyticsViewModel
+        {
+            StartOfAnalytics = startOfAnalytics,
+            WeeksSinceStartOfYear = weeksSinceStartOfAnalytics,
+            CountOfOrders = countOfOrders,
+            CountOfOrderItems = countOfOrderItems,
+            SumOfTotalCost = sumOfTotalCost,
+            SumOfTotalPaid = sumOfTotalPaid,
+            AvgOrdersPerWeek = avgOrdersPerWeek,
+            AvgOrderItemsPerWeek = avgOrderItemsPerWeek,
+            AvgItemsPerOrder = avgItemsPerOrder,
+            AvgCostPerOrder = avgCostPerOrder,
+            UnpaidOrderTotal = unpaidOrderTotal
+        };
+
+        return View(model);
+    } 
+    
 }
+
+
+
+

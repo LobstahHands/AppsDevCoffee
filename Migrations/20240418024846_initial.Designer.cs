@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppsDevCoffee.Migrations
 {
     [DbContext(typeof(CoffeeAppContext))]
-    [Migration("20240417134143_initial")]
+    [Migration("20240418024846_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -64,6 +64,7 @@ namespace AppsDevCoffee.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderStatus")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("PaidDate")
@@ -94,7 +95,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            OrderDate = new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4981),
+                            OrderDate = new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5974),
                             OrderStatus = "Filled",
                             PriceAdjustment = 0f,
                             SubtotalCost = 15f,
@@ -105,7 +106,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            OrderDate = new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4986),
+                            OrderDate = new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5981),
                             OrderStatus = "Pending",
                             PriceAdjustment = 0f,
                             SubtotalCost = 25f,
@@ -307,7 +308,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            DateAdded = new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4828),
+                            DateAdded = new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5802),
                             Email = "admin@example.com",
                             FirstName = "Admin",
                             Hashed = "PassPass1!",
@@ -319,7 +320,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            DateAdded = new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4870),
+                            DateAdded = new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5849),
                             Email = "john@example.com",
                             FirstName = "JohnTest",
                             Hashed = "PassPass1!",
@@ -331,12 +332,12 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 3,
-                            DateAdded = new DateTime(2024, 4, 17, 8, 41, 42, 826, DateTimeKind.Local).AddTicks(4873),
+                            DateAdded = new DateTime(2024, 4, 17, 21, 48, 45, 561, DateTimeKind.Local).AddTicks(5853),
                             Email = "jane@example.com",
                             FirstName = "JaneTest",
                             Hashed = "PassPass1!",
                             LastName = "Doe",
-                            UserStatus = "Active",
+                            UserStatus = "Pending",
                             UserTypeId = 3,
                             Username = "jane"
                         });
