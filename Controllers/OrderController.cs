@@ -192,17 +192,17 @@ namespace AppsDevCoffee.Controllers
             context.Orders.Add(order);
             context.SaveChanges();
 
-            return RedirectToAction("OrderPayment", order.Id);
+            return RedirectToAction("OrderPayment", new { id = order.Id });
         }
 
         // GET: OrderPayment
-        public IActionResult OrderPayment(int orderId)
+        public IActionResult OrderPayment(int id)
         {
-            var order = context.Orders.FirstOrDefault(o => o.Id == orderId);
+            var order = context.Orders.FirstOrDefault(o => o.Id == id);
 
 
             // Check if the ViewBag properties are null
-            if (order.TotalCost == null || orderId == null)
+            if (order.TotalCost == null || order.Id == null)
             {
                 // Redirect to an error page or handle the situation appropriately
                 return RedirectToAction("Error");
@@ -210,7 +210,7 @@ namespace AppsDevCoffee.Controllers
 
             // Pass ViewBag properties to the view
             ViewBag.TotalCost = order.TotalCost;
-            ViewBag.OrderId = orderId;
+            ViewBag.OrderId = order.Id;
 
             // Return the OrderPayment view
             return View();
