@@ -37,6 +37,9 @@
                             @if (User.HasClaim("UserTypeId", "1")) @*If user is an admin*@
                             {
                                 <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Admin" asp-action="UserList">User List</a>
                                 </li>
                                 <li class="nav-item">

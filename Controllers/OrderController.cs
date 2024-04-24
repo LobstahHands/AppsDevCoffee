@@ -2,40 +2,65 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System;
 using System.Security.Claims;
 
 namespace AppsDevCoffee.Controllers
 {
     [Authorize]
+    [ValidateAntiForgeryToken]
     public class OrderController(CoffeeAppContext ctx) : Controller
     {
         private readonly CoffeeAppContext context = ctx;
 
         public IActionResult Index()
         {
-            // Retrieve the user ID from the claims
-            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
+            // Retrieve the user type ID from the claims
+            var userTypeIdClaim = HttpContext.User.FindFirst("UserTypeId");
+            if (userTypeIdClaim == null)
             {
-                // User ID claim not found, handle accordingly (e.g., redirect to login)
-                return RedirectToAction("Login", "Account");
-            }
-
-            // Parse the user ID from the claim
-            if (!int.TryParse(userIdClaim.Value, out int userId))
-            {
-                // Unable to parse user ID, handle accordingly
+                // User type ID claim not found, handle accordingly
                 return RedirectToAction("Logout", "Account");
             }
 
-            // Retrieve orders for the logged-in user
-            var orders = context.Orders.Where(o => o.UserId == userId).ToList();
+            // Parse the user type ID from the claim
+            if (!int.TryParse(userTypeIdClaim.Value, out int userTypeId))
+            {
+                // Unable to parse user type ID, handle accordingly
+                return RedirectToAction("Logout", "Account");
+            }
 
-            // Pass the filtered orders to the view
+            List<Order> orders;
+            // Check if the user type is admin (User Type ID = 1)
+            if (userTypeId == 1)
+            {
+                // Retrieve all orders since the user is admin
+                orders = context.Orders.ToList();
+
+            }
+            else
+            {
+                // Retrieve orders for the logged-in user
+                var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim == null)
+                {
+                    // User ID claim not found, handle accordingly
+                    return RedirectToAction("Login", "Account");
+                }
+
+                // Parse the user ID from the claim
+                if (!int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    // Unable to parse user ID, handle accordingly
+                    return RedirectToAction("Logout", "Account");
+                }
+
+                // Retrieve orders for the logged-in user
+                orders = context.Orders.Where(o => o.UserId == userId).ToList();
+
+            }
             return View(orders);
         }
+
 
         // GET: /Order/Add
         public IActionResult Add()
@@ -79,11 +104,11 @@ namespace AppsDevCoffee.Controllers
 
                 orderItem.CalculateSubtotal();
 
-                // Retrieve order items from session
+                // get order items from session
                 var orderItems = HttpContext.Session.Get<List<OrderItem>>("OrderItems") ?? new List<OrderItem>();
                 orderItems.Add(orderItem);
 
-                // Store order items in session
+                // put order items in session
                 HttpContext.Session.Set("OrderItems", orderItems);
 
                 // Pass order items to the view
@@ -132,18 +157,18 @@ namespace AppsDevCoffee.Controllers
         }
 
 
-
-
-
         [HttpPost]
         public IActionResult CreateOrder()
         {
             var userId = GetCurrentUserId();
 
+            //handle the error. 
+            if (userId == 0) { return RedirectToAction("Index", "Home");}
+
             // Create a new order object
             var order = new Order
             {
-                UserId = int.Parse(userId),
+                UserId = userId,
                 OrderDate = DateTime.Now,
                 PriceAdjustment = 1,
                 OrderStatus = "Pending"
@@ -215,7 +240,6 @@ namespace AppsDevCoffee.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Order order)
         {
             if (id != order.Id)
@@ -279,7 +303,6 @@ namespace AppsDevCoffee.Controllers
 
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             var order = context.Orders.Find(id);
@@ -293,19 +316,19 @@ namespace AppsDevCoffee.Controllers
             return context.Orders.Any(o => o.Id == id);
         }
 
-        public string GetCurrentUserId()
+        public int GetCurrentUserId()
         {
             var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
             // Check if the claim exists and return its value
             if (userIdClaim != null)
             {
-                return userIdClaim.Value;
+                return int.Parse(userIdClaim.Value);
             }
             else
             {
                 // If the claim does not exist, redirect the user to the login action
-                return RedirectToAction("Login", "Account").ToString(); // Assuming Account is the name of your account controller
+                return 0; 
             }
         }
 

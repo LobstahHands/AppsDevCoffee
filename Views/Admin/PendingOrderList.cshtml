@@ -26,7 +26,7 @@
                     <td>@order.TotalPaid</td>
                     <td>@order.OrderDate</td>
                     <td>
-                        <form asp-action="PendingOrders" method="post">
+                        <form asp-action="PendingOrderList" method="post">
                             <input type="hidden" name="orderId" value="@order.Id" />
                             <button type="submit" class="btn btn-primary">Fill Order</button>
                         </form>

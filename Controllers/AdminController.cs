@@ -189,7 +189,7 @@ public class AdminController : Controller
         Context.SaveChanges();
 
         // Redirect back to the PendingOrders view
-        return RedirectToAction("PendingOrderList");
+        return RedirectToAction("Index");
     }
 
 
@@ -202,8 +202,53 @@ public class AdminController : Controller
             // Pass the pending users data to the view
             return View(pendingUsers);
     }
+    [HttpPost]
+    public IActionResult PendingUserList(int userId)
+    {
+        // Retrieve the user from your context
+        var user = Context.Users.FirstOrDefault(u => u.Id == userId);
 
+        // Check if the user exists
+        if (user == null)
+        {
+            // Handle the case where the User doesn't exist
+            return NotFound();
+        }
 
+        // Update the order status to "Active"
+        user.UserStatus = "Active";
+
+        // Save changes back to the context
+        Context.SaveChanges();
+
+        // Redirect back to index
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public IActionResult DeletePendingUser(int userId)
+    {
+        // Retrieve the user from your context
+        var user = Context.Users.FirstOrDefault(u => u.Id == userId);
+
+        // Check if the user exists
+        if (user == null)
+        {
+            // Handle the case where the User doesn't exist
+            return NotFound();
+        }
+
+        // Remove the user from the context
+        Context.Users.Remove(user);
+
+        // Save changes back to the context
+        Context.SaveChanges();
+
+        // Redirect back to index
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
     public IActionResult Analytics()
     {
 
@@ -223,9 +268,6 @@ public class AdminController : Controller
         var avgItemsPerOrder = countOfOrderItems / countOfOrders;
         var avgCostPerOrder = sumOfTotalCost / countOfOrders;
         var unpaidOrderTotal = sumOfTotalCost - sumOfTotalPaid;
-        
-
-
 
             // Pass the results to the view
         var model = new AnalyticsViewModel

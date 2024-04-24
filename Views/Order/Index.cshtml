@@ -11,6 +11,7 @@
             <th>Total Paid</th>
             <th>Order Date</th>
             <th>Paid Date</th>
+            <th>Order Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -24,9 +25,10 @@
                 <td>@order.TotalPaid</td>
                 <td>@order.OrderDate</td>
                 <td>@order.PaidDate</td>
+                <td>@order.OrderStatus</td>
                 <td>
                     <a asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
-                    @if(true)@*If admin, show additional options*@
+                    @if (User.HasClaim("UserTypeId", "1"))@*If admin, show additional options*@
                     {
                     <a asp-action="Edit" asp-route-id="@order.Id">Edit</a> 
                     <a asp-action="Delete" asp-route-id="@order.Id">Delete</a>
