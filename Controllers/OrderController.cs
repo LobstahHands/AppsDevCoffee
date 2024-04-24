@@ -170,6 +170,7 @@ namespace AppsDevCoffee.Controllers
                 UserId = userId,
                 OrderDate = DateTime.Now,
                 PriceAdjustment = 1,
+                TotalPaid = 0,
                 OrderStatus = "Pending"
             };
 

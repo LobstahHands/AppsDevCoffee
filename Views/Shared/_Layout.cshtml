@@ -35,7 +35,8 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Create">Purchase</a>
                             </li>
                             @if (User.HasClaim("UserTypeId", "1")) @*If user is an admin*@
-                            {
+                            {  
+                                <li class="nav-item"><a class="nav-link text-dark">||</a></li> @*Beautiful formatting space*@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Panel</a>
                                 </li>
@@ -45,6 +46,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Admin" asp-action="Analytics">Analytics</a>
                                 </li>
+                                <li class="nav-item"><a class="nav-link text-dark">||</a></li> @*Beautiful formatting space*@
                             }
                         }
                         else
