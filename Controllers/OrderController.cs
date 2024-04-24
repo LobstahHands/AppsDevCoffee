@@ -7,7 +7,6 @@ using System.Security.Claims;
 namespace AppsDevCoffee.Controllers
 {
     [Authorize]
-    [ValidateAntiForgeryToken]
     public class OrderController(CoffeeAppContext ctx) : Controller
     {
         private readonly CoffeeAppContext context = ctx;
@@ -193,28 +192,24 @@ namespace AppsDevCoffee.Controllers
             context.Orders.Add(order);
             context.SaveChanges();
 
-            HttpContext.Session.SetInt32("OrderTotalCost", (int)order.TotalCost);
-            HttpContext.Session.SetInt32("OrderId", order.Id);
-
-            return RedirectToAction("OrderPayment");
+            return RedirectToAction("OrderPayment", order.Id);
         }
 
         // GET: OrderPayment
-        public IActionResult OrderPayment()
+        public IActionResult OrderPayment(int orderId)
         {
-            // Get ViewBag properties for the view
-            var totalCost = HttpContext.Session.GetInt32("OrderTotalCost");
-            var orderId = HttpContext.Session.GetInt32("OrderId");
+            var order = context.Orders.FirstOrDefault(o => o.Id == orderId);
+
 
             // Check if the ViewBag properties are null
-            if (totalCost == null || orderId == null)
+            if (order.TotalCost == null || orderId == null)
             {
                 // Redirect to an error page or handle the situation appropriately
                 return RedirectToAction("Error");
             }
 
             // Pass ViewBag properties to the view
-            ViewBag.TotalCost = totalCost;
+            ViewBag.TotalCost = order.TotalCost;
             ViewBag.OrderId = orderId;
 
             // Return the OrderPayment view

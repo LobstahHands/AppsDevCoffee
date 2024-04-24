@@ -22,7 +22,17 @@
                 <td>@order.Id</td>
                 <td>@order.UserId</td>
                 <td>@order.TotalCost</td>
-                <td>@order.TotalPaid</td>
+                <td>
+                    @if (order.TotalPaid < 1)
+                    {
+                        <a asp-action="OrderPayment" asp-route-id="@order.Id">$0.00 - Pay Now</a>
+                    }
+                    else
+                    {
+                        @order.TotalPaid
+                    }
+                    
+                </td>
                 <td>@order.OrderDate</td>
                 <td>@order.PaidDate</td>
                 <td>@order.OrderStatus</td>
@@ -34,7 +44,6 @@
                     <a asp-action="Delete" asp-route-id="@order.Id">Delete</a>
                     }
                     <a asp-action="Index">Cancel</a>
-
                 </td>
             </tr>
         }
