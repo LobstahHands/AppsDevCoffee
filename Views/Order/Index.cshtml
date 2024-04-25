@@ -33,8 +33,9 @@
                     }
                     
                 </td>
-                <td>@order.OrderDate</td>
-                <td>@order.PaidDate</td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>@(order.PaidDate.HasValue ? order.PaidDate.Value.ToShortDateString() : "")</td>
+
                 <td>@order.OrderStatus</td>
                 <td>
                     <a asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
