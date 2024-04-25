@@ -7,9 +7,14 @@ using System.Security.Claims;
 namespace AppsDevCoffee.Controllers
 {
     [Authorize]
-    public class OrderController(CoffeeAppContext ctx) : Controller
+    public class OrderController : Controller
     {
-        private readonly CoffeeAppContext context = ctx;
+        private readonly CoffeeAppContext context;
+
+        public OrderController(CoffeeAppContext ctx)
+        {
+            context = ctx;
+        }
 
         public IActionResult Index()
         {
@@ -28,7 +33,7 @@ namespace AppsDevCoffee.Controllers
                 return RedirectToAction("Logout", "Account");
             }
 
-            List<Order> orders;
+            List<Order> orders = new List<Order>();
             // Check if the user type is admin (User Type ID = 1)
             if (userTypeId == 1)
             {
@@ -242,7 +247,9 @@ namespace AppsDevCoffee.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove("User");
+            ModelState.Remove("OrderItems");
+            ModelState.Remove("OrderStatus");
             if (ModelState.IsValid)
             {
                 try
@@ -280,14 +287,9 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        [HttpGet]
-        public IActionResult Delete(int? id)
+        // GET: Order/Delete/{id}
+        public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var order = context.Orders.Find(id);
             if (order == null)
             {
@@ -297,15 +299,30 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        // POST: Order/Delete/{id}
+        [HttpPost] //, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id, bool confirmDelete)
         {
             var order = context.Orders.Find(id);
-            context.Orders.Remove(order);
-            context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            if (confirmDelete)
+            {
+                context.Orders.Remove(order);
+                context.SaveChanges();
+                return RedirectToAction("Index", "Order");
+            }
+            else
+            {
+                return RedirectToAction("Delete", new { id });
+            }
         }
+        
+
 
         private bool OrderExists(int id)
         {

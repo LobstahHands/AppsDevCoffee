@@ -10,17 +10,21 @@
             <div class="card mt-5">
                 <div class="card-body">
                     <h5 class="card-title">Payment Details</h5>
-                    <p class="card-text"> $@totalCost is owed. Please follow the PayPal or Venmo link below and send the payment with your order ID: 
+                    <p class="card-text">
+                        <strong>Amount Owed: $@totalCost</strong>
                         <br/>
-                        @orderId in the transaction description. Once payment is received.</p>
+                        <strong>Order ID: @orderId </strong>
+                        <br/>
+
+                        Please complete a payment with your orderId in the description.</p>
                     <div class="btn-group" role="group">
                         <a href="https://www.paypal.com" class="btn" style="background-color: #001f3f; color: #ffffff; border-color: #001f3f;">Pay with PayPal</a>
                         <a href="https://www.venmo.com" class="btn btn-info text-white">Pay with Venmo</a>
                     </div>
-                    <p class="mt-3">You can also choose to pay later.</p>
-                    <p>Payment in person with cash is acceptable. You can also get back to this page from the orders page.'</p>
+                    <p class="mt-3">You can also choose to pay later. Payment in person with cash is acceptable. <br/> You can also get back to this page from the orders page.</p>
                     <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Pay Later</a>
-                    <h3>*All payments will be updated in the orders page within 1 business day of being received.*</h3>
+                    <br/><br/>
+                    <h5 class="card-title">*All payments will be updated in the orders page within 1 business day of being received.*</h5>
                 </div>
             </div>
         </div>
