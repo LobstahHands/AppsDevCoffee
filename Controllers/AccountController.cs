@@ -28,8 +28,8 @@ namespace AppsDevCoffee.Controllers
         {
 
             // Hash the password entered by the user -- uncomment for production
-            //string hashedPassword = PasswordHasher.HashPassword(model.Password);
-            string hashedPassword = model.Password;
+            string hashedPassword = PasswordHasher.HashPassword(model.Password);
+            //string hashedPassword = model.Password;
 
             AccountLog accountLog = new()
             {
@@ -40,7 +40,7 @@ namespace AppsDevCoffee.Controllers
 
             var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Hashed == hashedPassword);
 
-            if (user != null && user.UserStatus == "Active"/*&& PasswordHasher.VerifyPassword(user.Hashed,hashedPassword)*/)
+            if (user != null && user.UserStatus == "Active" && PasswordHasher.VerifyPassword(user.Hashed, hashedPassword))
             {
                 var claims = new[]
                 {
@@ -88,7 +88,7 @@ namespace AppsDevCoffee.Controllers
 
                 return RedirectToAction(action, controller);
             }
-            else if (user.UserStatus == "Active")
+            else if (user !=null && user.UserStatus == "Active")
             {
                 accountLog.LogResult = "Blocked Login - Pending User";
                 Context.AccountLogs.Add(accountLog);
@@ -164,10 +164,10 @@ namespace AppsDevCoffee.Controllers
                 }
 
                 // Hash the password - uncomment for production
-                //string hashedPassword = PasswordHasher.HashPassword(model.Password);
+                string hashedPassword = PasswordHasher.HashPassword(model.Password);
                 
                 //no encryption for testing.
-                string hashedPassword = model.Password;
+                //string hashedPassword = model.Password;
 
                 // Create a new user
                 var newUser = new User
@@ -178,7 +178,7 @@ namespace AppsDevCoffee.Controllers
                     UserTypeId = 3, //Hardcoded to add as a general user. May leave the is for production and have admin switch to employee.
                     Username = model.Username,
                     Hashed = hashedPassword, // Store the hashed password
-                    UserStatus = "Active", // switch default to Pending for production until approved by Admin 
+                    UserStatus = "Pending", // switch default to Pending for production until approved by Admin 
                     DateAdded = DateTime.Now
                 };
 
