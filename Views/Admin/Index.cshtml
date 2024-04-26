@@ -4,6 +4,23 @@
 }
 <h2>@ViewData["Title"]</h2>
 
+<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Admin" asp-action="UserList">User List</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Analytics">Analytics</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Admin" asp-action="AccountLogs">Log</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Inventory" asp-action="InventoryList">Inventory</a>
+        </li>
+    </ul>
+</div>
+
 @if (Model.PendingOrders != null)
 {
     <div>

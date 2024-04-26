@@ -22,7 +22,6 @@ namespace AppsDevCoffee.Models
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 10000,
                 numBytesRequested: 32));
-
             // Combine the salt and hashed password
             string combinedHash = $"{Convert.ToBase64String(salt)}:{hashedPassword}";
 

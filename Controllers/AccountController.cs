@@ -28,8 +28,9 @@ namespace AppsDevCoffee.Controllers
         {
 
             // Hash the password entered by the user -- uncomment for production
-            string hashedPassword = PasswordHasher.HashPassword(model.Password);
-            //string hashedPassword = model.Password;
+            //string providedPassword = PasswordHasher.HashPassword(model.Password);
+            
+            string providedPassword = model.Password;
 
             AccountLog accountLog = new()
             {
@@ -38,9 +39,10 @@ namespace AppsDevCoffee.Controllers
                 CreatedDate = DateTime.Now
             };
 
-            var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username.ToLower() && u.Hashed == hashedPassword);
+            var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username);
+            bool validPassword = PasswordHasher.VerifyPassword(user.Hashed, providedPassword);
 
-            if (user != null && user.UserStatus == "Active" && PasswordHasher.VerifyPassword(user.Hashed, hashedPassword))
+            if (user != null && user.UserStatus == "Active" && validPassword)
             {
                 var claims = new[]
                 {
@@ -88,7 +90,7 @@ namespace AppsDevCoffee.Controllers
 
                 return RedirectToAction(action, controller);
             }
-            else if (user !=null && user.UserStatus == "Active")
+            else if (user !=null && user.UserStatus != "Active" && validPassword)
             {
                 accountLog.LogResult = "Blocked Login - Pending User";
                 Context.AccountLogs.Add(accountLog);
@@ -167,7 +169,7 @@ namespace AppsDevCoffee.Controllers
                 string hashedPassword = PasswordHasher.HashPassword(model.Password);
                 
                 //no encryption for testing.
-                //string hashedPassword = model.Password;
+                //string providedPassword = model.Password;
 
                 // Create a new user
                 var newUser = new User

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<OriginType>
+<h2>Available Origin Types - Inventory</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Supplier Notes</th>
+            <th>Roaster Notes</th>
+            <th>Cost Per Oz</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var originType in Model)
+        {
+            <tr>
+                <td>@originType.Country</td>
+                <td>@originType.SupplierNotes</td>
+                <td>@originType.RoasterNotes</td>
+                <td>@originType.CostPerOz</td>
+                <td>
+                    <a asp-action="UpdateInventory" asp-route-id="@originType.OriginTypeId" class="btn btn-primary">Edit</a> |
+                    <form asp-action="DeleteInventory" asp-route-id="@originType.OriginTypeId" method="post" onsubmit="return confirm('Are you sure you want to delete this origin type?');">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
