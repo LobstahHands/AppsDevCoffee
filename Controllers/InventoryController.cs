@@ -1,8 +1,6 @@
 ﻿using AppsDevCoffee.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace AppsDevCoffee.Controllers
 {
