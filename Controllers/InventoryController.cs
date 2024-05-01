@@ -33,22 +33,43 @@ namespace AppsDevCoffee.Controllers
         }
 
         // POST method to update the database with changes to an origin type
+        // POST method to update or add an origin type
         [HttpPost]
         public IActionResult UpdateInventory(int id, OriginType originType)
         {
-            if (id != originType.OriginTypeId)
+            if (id > 0) // Update existing record
             {
-                return NotFound();
-            }
+                var existingOriginType = Context.OriginTypes.Find(id);
+                if (existingOriginType == null)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
-                Context.Update(originType);
-                Context.SaveChanges();
-                return RedirectToAction(nameof(InventoryList));
+                if (ModelState.IsValid)
+                {
+                    existingOriginType.Country = originType.Country;
+                    existingOriginType.RoasterNotes = originType.RoasterNotes;
+
+                    Context.Update(existingOriginType);
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(InventoryList));
+                }
+
+                return View(existingOriginType);
             }
-            return View(originType);
+            else // Add new record
+            {
+                if (ModelState.IsValid)
+                {
+                    Context.Add(originType);
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(InventoryList));
+                }
+
+                return View(originType);
+            }
         }
+
 
         // POST method to delete an origin type
         [HttpPost]
