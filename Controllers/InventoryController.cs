@@ -48,7 +48,9 @@ namespace AppsDevCoffee.Controllers
                 if (ModelState.IsValid)
                 {
                     existingOriginType.Country = originType.Country;
+                    existingOriginType.SupplierNotes = originType.SupplierNotes;
                     existingOriginType.RoasterNotes = originType.RoasterNotes;
+                    existingOriginType.CostPerOz = originType.CostPerOz;
 
                     Context.Update(existingOriginType);
                     Context.SaveChanges();

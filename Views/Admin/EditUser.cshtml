@@ -41,9 +41,13 @@
 
     <div class="form-group">
         <label asp-for="UserStatus">User Status:</label>
-        <input asp-for="UserStatus" class="form-control"/>
+        <select asp-for="UserStatus" class="form-control">
+            <option value="Pending">Pending</option>
+            <option value="Active">Active</option>
+        </select>
         <span asp-validation-for="UserStatus" class="text-danger"></span>
     </div>
+
 
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="UserDetail" asp-controller="User" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>

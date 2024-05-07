@@ -310,8 +310,12 @@ namespace AppsDevCoffee.Controllers
                 return NotFound();
             }
 
+
+            var orderItems = context.OrderItems.Where(o => o.OrderId == order.Id);
+
             if (confirmDelete)
             {
+                context.OrderItems.RemoveRange(orderItems);
                 context.Orders.Remove(order);
                 context.SaveChanges();
                 return RedirectToAction("Index", "Order");
