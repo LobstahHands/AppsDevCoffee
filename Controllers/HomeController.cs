@@ -39,7 +39,7 @@ namespace AppsDevCoffee.Controllers
             catch (HttpRequestException ex)
             {
                 // Log or handle the exception
-                ViewBag.HomePicture = "/images/cup_white.jpg";
+                ViewBag.ApiPicture = "/images/coffee_cement.jpg";
             }
         }
 

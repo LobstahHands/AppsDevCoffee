@@ -10,7 +10,7 @@ public class EmailService
         SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
         {
             Port = 587, // Gmail SMTP port
-            Credentials = new NetworkCredential("kopaczjm@gmail.com", "Your-Gmail-Password"),
+            Credentials = new NetworkCredential("kopaczjm@gmail.com", "Password!"),
             EnableSsl = true // Enable SSL encryption
         };
 

@@ -222,16 +222,15 @@ public class AdminController : Controller
         // Save changes back to the context
         Context.SaveChanges();
 
-        //email update
-        EmailService emailService = new EmailService();
+        ////email update
+        //EmailService emailService = new EmailService();
 
-        // Define subject and body
-        string subject = "Registration Approved";
-        string body = "Your registration has been approved. You may now visit the site and login!";
-        string recipient = user.Email;
-        // Call SendEmail method with subject and body
-        emailService.SendEmail(recipient, subject, body);
-
+        //// Define subject and body
+        //string subject = "Registration Approved";
+        //string body = "Your registration has been approved. You may now visit the site and login!";
+        //string recipient = user.Email;
+        //// Call SendEmail method with subject and body
+        //emailService.SendEmail(recipient, subject, body);
 
         // Redirect back to index
         return RedirectToAction("Index");

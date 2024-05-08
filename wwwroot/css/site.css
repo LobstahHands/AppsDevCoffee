@@ -8,17 +8,16 @@
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
-
+*/
 html {
   position: relative;
   min-height: 100%;
 }
-
+    
 body {
   margin-bottom: 60px;
-}*/
-
-/* Override Bootstrap link styles */
+}
+ /* Override Bootstrap link styles */
 a {
     color: darkolivegreen; /* Your desired color value */
     text-decoration: underline; /* Optionally remove underlines */
@@ -45,14 +44,3 @@ a {
         color: white;
         border-color: white;
     }
-
-
-
-#AboutContainer {
-    background-image: url('@ViewBag.ApiPicture');
-    background-size: cover; 
-    background-position: center; 
-    
-
-    color:white;
-}
