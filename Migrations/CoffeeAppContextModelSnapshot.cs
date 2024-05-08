@@ -92,7 +92,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            OrderDate = new DateTime(2024, 5, 7, 14, 3, 33, 565, DateTimeKind.Local).AddTicks(2146),
+                            OrderDate = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7120),
                             OrderStatus = "Filled",
                             PriceAdjustment = 0f,
                             SubtotalCost = 15f,
@@ -103,7 +103,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            OrderDate = new DateTime(2024, 5, 7, 14, 3, 33, 565, DateTimeKind.Local).AddTicks(2153),
+                            OrderDate = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7125),
                             OrderStatus = "Pending",
                             PriceAdjustment = 0f,
                             SubtotalCost = 25f,
@@ -305,7 +305,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            DateAdded = new DateTime(2024, 5, 7, 14, 3, 33, 565, DateTimeKind.Local).AddTicks(1754),
+                            DateAdded = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(6960),
                             Email = "admin@example.com",
                             FirstName = "Admin",
                             Hashed = "PassPass1!",
@@ -317,7 +317,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            DateAdded = new DateTime(2024, 5, 7, 14, 3, 33, 565, DateTimeKind.Local).AddTicks(1799),
+                            DateAdded = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7015),
                             Email = "john@example.com",
                             FirstName = "JohnTest",
                             Hashed = "PassPass1!",
@@ -329,7 +329,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 3,
-                            DateAdded = new DateTime(2024, 5, 7, 14, 3, 33, 565, DateTimeKind.Local).AddTicks(1802),
+                            DateAdded = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7018),
                             Email = "jane@example.com",
                             FirstName = "JaneTest",
                             Hashed = "PassPass1!",

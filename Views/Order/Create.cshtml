@@ -29,16 +29,19 @@
             </div>
 
             <div class="form-group">
-    <label>Oz Quantity:</label><br>
-    <input type="hidden" asp-for="OzQuantity" value="15">
-    <p class="form-control-static">15 oz.</p>
-</div>
-
-
+                <label>Oz Quantity:</label><br>
+                <input type="hidden" asp-for="OzQuantity" value="15">
+                <p class="form-control-static">15 oz.</p>
+            </div>
 
             <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Order</button>
 
             </form>
+        <form asp-action="CreateOrder" asp-controller="Order">
+            <button type="submit" name="submitType" value="CreateOrder" class="btn btn-success">Create Order</button>
+            <br />
+            <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
+        </form>
         </div>
 
         <div class="col-md-6">
@@ -49,13 +52,14 @@
                 {
                     foreach (var item in Model.OrderItems)
                     {
-                        <li style="display: flex;">Origin Id:@item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal &nbsp;
-                            <form asp-controller="Order" asp-action="RemoveOrderItem" method="post">
-                                <input type="hidden" name="originTypeId" value="@item.OriginTypeId" />
-                                <input type="hidden" name="roastId" value="@item.RoastTypeId" />
-                                <input type="hidden" name="ozQuantity" value="@item.OzQuantity" />
-                                <button type="submit" class="btn btn-danger btn-sm">X</button>
-                            </form>
+                        <li style="display: flex;">
+                            Origin Id:@item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal &nbsp;
+                            <a asp-controller="Order" asp-action="RemoveOrderItem"
+                               asp-route-originTypeId="@item.OriginTypeId"
+                               asp-route-roastId="@item.RoastTypeId"
+                               asp-route-ozQuantity="@item.OzQuantity"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Are you sure you want to remove this item?');">X</a>
                         </li>
                     }
                 } 
@@ -63,8 +67,5 @@
             </div>
         </div>
     </div>
-    <form asp-action="CreateOrder" asp-controller="Order">
-        <button type="submit" name="submitType" value="CreateOrder" class="btn btn-success">Create Order</button>
-        <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
-    </form>
+
     

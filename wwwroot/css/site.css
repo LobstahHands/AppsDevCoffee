@@ -1,7 +1,4 @@
-html {
-  font-size: 14px;
-}
-
+/*
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -19,4 +16,43 @@ html {
 
 body {
   margin-bottom: 60px;
+}*/
+
+/* Override Bootstrap link styles */
+a {
+    color: darkolivegreen; /* Your desired color value */
+    text-decoration: underline; /* Optionally remove underlines */
+}
+
+    /* Override Bootstrap hover state for links */
+    a:hover {
+        color: darkolivegreen; /* Adjust the color on hover if needed */
+        text-decoration: none; /* Optionally underline on hover */
+    }
+
+
+/* Override Bootstrap button styles */
+.btn {
+    background-color: #423807;
+    color: white;
+    border-color: white;
+    width: 11em;
+}
+
+    /* Override Bootstrap hover state for buttons */
+    .btn:hover {
+        background-color: #333; /* Darken the background color on hover */
+        color: white;
+        border-color: white;
+    }
+
+
+
+#AboutContainer {
+    background-image: url('@ViewBag.ApiPicture');
+    background-size: cover; 
+    background-position: center; 
+    
+
+    color:white;
 }

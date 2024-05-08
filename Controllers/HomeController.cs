@@ -18,8 +18,9 @@ namespace AppsDevCoffee.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
+            await GetHomePicture();
             return View();
         }
 
@@ -33,7 +34,7 @@ namespace AppsDevCoffee.Controllers
                 var json = await response.Content.ReadAsStringAsync();
                 dynamic data = JsonConvert.DeserializeObject<dynamic>(json);
 
-                ViewBag.HomePicture = data.file;
+                ViewBag.ApiPicture = data.file;
             }
             catch (HttpRequestException ex)
             {
