@@ -109,7 +109,7 @@ namespace AppsDevCoffee.Controllers
 
             }
             else {
-
+                ModelState.AddModelError("", "No account associated with that username.");
                 return View();
             }
             
