@@ -37,6 +37,7 @@ namespace AppsDevCoffee.Controllers
         [HttpPost]
         public IActionResult UpdateInventory(int id, OriginType originType)
         {
+            
             if (id > 0) // Update existing record
             {
                 var existingOriginType = Context.OriginTypes.Find(id);

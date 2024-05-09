@@ -1,6 +1,8 @@
 ﻿@model OriginType
-
-<h2>Update Origin Type</h2>
+@{
+    ViewData["Title"] = "Update Inventory";
+}
+<h2>@ViewData["Title"]</h2>
 <form asp-action="UpdateInventory" method="post">
     <input type="hidden" asp-for="OriginTypeId" />
     <div class="form-group">

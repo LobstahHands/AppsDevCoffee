@@ -21,8 +21,7 @@ namespace AppsDevCoffee.Models
         {
             modelBuilder.Entity<UserType>().HasData(
                 new UserType { Id = 1, Description = "Admin" },
-                new UserType { Id = 2, Description = "Employee" },
-                new UserType { Id = 3, Description = "User" }
+                new UserType { Id = 2, Description = "User" }
             );
 
 
@@ -57,7 +56,7 @@ namespace AppsDevCoffee.Models
                     FirstName = "JaneTest",
                     LastName = "Doe",
                     Email = "jane@example.com",
-                    UserTypeId = 3,
+                    UserTypeId = 2,
                     Username = "jane",
                     Hashed = "PassPass1!", // Replace with hashed password
                     UserStatus = "Pending",

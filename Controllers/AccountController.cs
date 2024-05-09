@@ -40,76 +40,79 @@ namespace AppsDevCoffee.Controllers
             };
 
             var user = Context.Users.SingleOrDefault(u => u.Username.ToLower() == model.Username);
-            bool validPassword = PasswordHasher.VerifyPassword(user.Hashed, providedPassword);
-
-            if (user != null && user.UserStatus == "Active" && validPassword)
+            if (user != null)
             {
-                var claims = new[]
+                bool validPassword = PasswordHasher.VerifyPassword(user.Hashed, providedPassword);
+
+                if (user != null && user.UserStatus == "Active" && validPassword)
                 {
+                    var claims = new[]
+                    {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // User ID
                     new Claim(ClaimTypes.Name, user.Username), //Username
                     new Claim("UserTypeId",user.UserTypeId.ToString()) //User Type Id
                 };
 
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                var principal = new ClaimsPrincipal(identity);
+                    var principal = new ClaimsPrincipal(identity);
 
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                accountLog.Email = user.Email;
-                accountLog.LogResult = "Login Success";
-                Context.AccountLogs.Add(accountLog);
-                Context.SaveChanges();
+                    accountLog.Email = user.Email;
+                    accountLog.LogResult = "Login Success";
+                    Context.AccountLogs.Add(accountLog);
+                    Context.SaveChanges();
 
-                string action = "Index";
-                string controller = "Home";
+                    string action = "Index";
+                    string controller = "Home";
 
-                switch (user.UserTypeId)
+                    switch (user.UserTypeId)
+                    {
+                        case 1:
+                            action = "Index";
+                            controller = "Admin";
+                            break;
+                        case 2:
+                            action = "Index";
+                            controller = "Home";
+                            break;
+                        default:
+                            action = "Index";
+                            controller = "Home";
+                            break;
+                    }
+
+                    return RedirectToAction(action, controller);
+                }
+                else if (user != null && user.UserStatus != "Active" && validPassword)
                 {
-                    case 1:
-                        action = "Index";
-                        controller = "Admin";
-                        break;
-                    case 2:
-                        action = "Index";
-                        controller = "Home";
-                        break;
-                    case 3:
-                        action = "Index";
-                        controller = "Home";
-                        break;
-                    default:
-                        action = "Index";
-                        controller = "Home";
-                        break;
+                    //Valid login, but account status is still pending
+                    accountLog.LogResult = "Blocked Login - Pending User";
+                    Context.AccountLogs.Add(accountLog);
+                    Context.SaveChanges();
+
+                    ModelState.AddModelError("", "Account Pending, Unable to Login.");
+                    return View(model);
+                }
+                else
+                {
+                    //unsuccesful login
+                    //add to log
+                    accountLog.LogResult = "Login Failure";
+                    Context.AccountLogs.Add(accountLog);
+                    Context.SaveChanges();
+                    //model error
+                    ModelState.AddModelError("", "Invalid Username or Password");
+                    return View(model);
                 }
 
-                action = "Index";
-                controller = "Admin";
-
-                return RedirectToAction(action, controller);
             }
-            else if (user !=null && user.UserStatus != "Active" && validPassword)
-            {
-                accountLog.LogResult = "Blocked Login - Pending User";
-                Context.AccountLogs.Add(accountLog);
-                Context.SaveChanges();
+            else {
 
-                ModelState.AddModelError("", "Account Pending, Unable to Login.");
-                return View(model);
+                return View();
             }
-            else
-            {
-                //log unsuccesful login
-
-                accountLog.LogResult = "Login Failure";
-                Context.AccountLogs.Add(accountLog);
-                Context.SaveChanges();
-
-                ModelState.AddModelError("", "Invalid Username or Password");
-                return View(model);
-            }  
+            
         }
         //Logout  - Absolute savage. instant logout. no confirmation. 
         public IActionResult Logout()

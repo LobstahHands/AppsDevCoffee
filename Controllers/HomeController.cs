@@ -11,21 +11,21 @@ namespace AppsDevCoffee.Controllers
             httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("https://coffee.alexflipnote.dev/");
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            //var homePicture = await
-            await GetHomePicture();
             return View();
         }
 
         public async Task<IActionResult> About()
         {
+            //Generate a URL for a random coffee related picture - API Call
             await GetHomePicture();
             return View();
         }
 
         private async Task GetHomePicture()
         {
+            //API Implementation. This returns the URL for a random picture that is coffee related.
             try
             {
                 var response = await httpClient.GetAsync("/random.json");
@@ -38,7 +38,7 @@ namespace AppsDevCoffee.Controllers
             }
             catch (HttpRequestException ex)
             {
-                // Log or handle the exception
+                //If an exception occurs, use a default URL. 
                 ViewBag.ApiPicture = "/images/coffee_cement.jpg";
             }
         }

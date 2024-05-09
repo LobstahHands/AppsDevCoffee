@@ -211,7 +211,7 @@ namespace AppsDevCoffee.Controllers
             if (order.TotalCost == null || order.Id == null)
             {
                 // Redirect to an error page or handle the situation appropriately
-                return RedirectToAction("Error");
+                return RedirectToAction("Index");
             }
 
             // Pass ViewBag properties to the view
@@ -344,7 +344,6 @@ namespace AppsDevCoffee.Controllers
             }
             else
             {
-                // If the claim does not exist, redirect the user to the login action
                 return 0; 
             }
         }

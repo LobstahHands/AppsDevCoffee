@@ -15,7 +15,7 @@ namespace AppsDevCoffee.Models
                 rng.GetBytes(salt);
             }
 
-            // Hash the password with PBKDF2
+            // Hash the password
             string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,
