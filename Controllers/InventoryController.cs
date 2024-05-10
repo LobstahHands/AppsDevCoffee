@@ -24,7 +24,8 @@ namespace AppsDevCoffee.Controllers
         // GET method to display the update form for a specific origin type
         public IActionResult UpdateInventory(int id)
         {
-            var originType = Context.OriginTypes.Find(id);
+            
+            var originType = id == 0? new OriginType() : Context.OriginTypes.Find(id);
             if (originType == null)
             {
                 return NotFound();
@@ -62,6 +63,7 @@ namespace AppsDevCoffee.Controllers
             }
             else // Add new record
             {
+                
                 if (ModelState.IsValid)
                 {
                     Context.Add(originType);

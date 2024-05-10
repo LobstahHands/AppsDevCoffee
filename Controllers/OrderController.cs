@@ -125,7 +125,7 @@ namespace AppsDevCoffee.Controllers
 
 
         [HttpPost]
-        public IActionResult RemoveOrderItem(int? originTypeId = null, int? ozQuantity = null, int? roastId = null)
+        public IActionResult RemoveOrderItem(int originTypeId, int roastTypeId, int ozQuantity)
         {
             // Retrieve the list of order items from session
             var orderItems = HttpContext.Session.Get<List<OrderItem>>("OrderItems");
@@ -133,24 +133,15 @@ namespace AppsDevCoffee.Controllers
 
             if (orderItems != null)
             {
-                if (originTypeId.HasValue && ozQuantity.HasValue && roastId.HasValue)
-                {
+                
                     // Find and remove the specific order item
                     var orderItemToRemove = orderItems
-                        .FirstOrDefault(item => item.OriginTypeId == originTypeId && item.OzQuantity == ozQuantity && item.RoastTypeId == roastId);
+                        .FirstOrDefault(item => item.OriginTypeId == originTypeId && item.OzQuantity == ozQuantity && item.RoastTypeId == roastTypeId);
 
                     if (orderItemToRemove != null)
                     {
                         orderItems.Remove(orderItemToRemove);
                     }
-                }
-                else
-                {
-                    // Remove all order items
-                    orderItems.Clear();
-                    action = "Index"; //Navigate back out
-
-                }
 
                 // Update the order items in session
                 HttpContext.Session.Set("OrderItems", orderItems);
@@ -287,7 +278,10 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
-        // GET: Order/Delete/{id}
+        
+        // POST: Order/Delete/{id}
+        [HttpPost] //, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var order = context.Orders.Find(id);
@@ -296,34 +290,13 @@ namespace AppsDevCoffee.Controllers
                 return NotFound();
             }
 
-            return View(order);
-        }
-
-        // POST: Order/Delete/{id}
-        [HttpPost] //, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, bool confirmDelete)
-        {
-            var order = context.Orders.Find(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-
             var orderItems = context.OrderItems.Where(o => o.OrderId == order.Id);
-
-            if (confirmDelete)
-            {
-                context.OrderItems.RemoveRange(orderItems);
-                context.Orders.Remove(order);
-                context.SaveChanges();
-                return RedirectToAction("Index", "Order");
-            }
-            else
-            {
-                return RedirectToAction("Delete", new { id });
-            }
+            
+            context.OrderItems.RemoveRange(orderItems);
+            context.Orders.Remove(order);
+            context.SaveChanges();
+            return RedirectToAction("Index", "Order");
+            
         }
         
 

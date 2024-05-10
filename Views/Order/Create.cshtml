@@ -11,10 +11,10 @@
             <form asp-controller="Order" asp-action="CreateItem" method="post">
             <div class="form-group">
                 <label>Select Coffee:</label>
-                <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId"> @* Replace asp-for with name if not working *@
+                <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId">
                     @foreach (var coffee in ViewBag.AvailableOriginTypes)
                     {
-                        <option value="@coffee.OriginTypeId">@coffee.Country - @coffee.SupplierNotes</option>
+                        <option value="@coffee.OriginTypeId">@coffee.Country - @coffee.SupplierNotes - $@coffee.CostPerOz /oz</option>
                     }
                 </select>
             </div>
@@ -50,18 +50,19 @@
                 <ul id="orderItemsList">
                 @if (Model.OrderItems != null)
                 {
-                    foreach (var item in Model.OrderItems)
+                    <form asp-controller="Order" asp-action="RemoveOrderItem" method="post" onsubmit="return confirm('Are you sure you want to remove this item?');">
+                    @foreach (var item in Model.OrderItems)
                     {
                         <li style="display: flex;">
                             Origin Id:@item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal &nbsp;
-                            <a asp-controller="Order" asp-action="RemoveOrderItem"
-                               asp-route-originTypeId="@item.OriginTypeId"
-                               asp-route-roastId="@item.RoastTypeId"
-                               asp-route-ozQuantity="@item.OzQuantity"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('Are you sure you want to remove this item?');">X</a>
+                              <input type="hidden" name="originTypeId" value="@item.OriginTypeId" />
+                                <input type="hidden" name="roastTypeId" value="@item.RoastTypeId" />
+                                <input type="hidden" name="ozQuantity" value="@item.OzQuantity" />
+                                <button type="submit" class="btn btn-danger btn-sm">X</button>
+                            
                         </li>
                     }
+                    </form>
                 } 
                 </ul>
             </div>

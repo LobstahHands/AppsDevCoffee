@@ -25,7 +25,7 @@
                     <td>@user.FirstName</td>
                     <td>@user.LastName</td>
                     <td>@user.Username</td>
-                    <td>@user.DateAdded</td>
+                    <td>@user.DateAdded.ToShortDateString()</td> 
                     
                     <td>
                         <form asp-action="PendingUserList" method="post">

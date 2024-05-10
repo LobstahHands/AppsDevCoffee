@@ -1,11 +1,5 @@
 ﻿@model AppsDevCoffee.Models.AnalyticsViewModel
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Analytics</title>
-</head>
-<body>
     <h2>Analytics</h2>
 
     <div>
@@ -21,5 +15,6 @@
         <p>Avg Cost Per Order: @Model.AvgCostPerOrder.ToString("C")</p>
         <p>Unpaid Order Total: @Model.UnpaidOrderTotal.ToString("C")</p>
     </div>
-</body>
-</html>
+    <div class="mt-4">
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-primary">Back to Admin Index</a>
+    </div>

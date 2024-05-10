@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<AppsDevCoffee.Models.AccountLog>
 
-<h1>Account Logs</h1>
+@{
+    ViewData["Title"] = "Account Logs";
+}
+<h2>@ViewData["Title"]</h2>
 
 <table class="table">
     <thead>
@@ -25,3 +28,7 @@
         }
     </tbody>
 </table>
+
+<div class="mt-4">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-primary">Back to Admin Index</a>
+</div>

@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<OriginType>
 <h2>Available Origin Types - Inventory</h2>
+<form asp-action="UpdateInventory" asp-route-id="0" method="get">
+    <button type="submit" class="btn btn-success">Add New</button>
+</form>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -28,6 +31,6 @@
         }
     </tbody>
 </table>
-<form asp-action="UpdateInventory" asp-route-id="0" method="get">
-    <button type="submit" class="btn btn-success">Add New</button>
-</form>
+<div class="mt-4">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-primary">Back to Admin Index</a>
+</div>

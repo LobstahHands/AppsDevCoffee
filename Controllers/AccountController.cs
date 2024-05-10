@@ -51,10 +51,9 @@ namespace AppsDevCoffee.Controllers
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // User ID
                     new Claim(ClaimTypes.Name, user.Username), //Username
                     new Claim("UserTypeId",user.UserTypeId.ToString()) //User Type Id
-                };
+                    };
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
                     var principal = new ClaimsPrincipal(identity);
 
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
@@ -107,8 +106,7 @@ namespace AppsDevCoffee.Controllers
                     return View(model);
                 }
 
-            }
-            else {
+            }else{
                 ModelState.AddModelError("", "No account associated with that username.");
                 return View();
             }
