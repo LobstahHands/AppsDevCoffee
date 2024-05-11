@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<OriginType>
-<h2>Available Origin Types - Inventory</h2>
+@{
+    ViewData["Title"] = "Available Origins - Inventory";
+}
+<h2 class="display-5">@ViewData["Title"]</h2>
+<hr />
 <form asp-action="UpdateInventory" asp-route-id="0" method="get">
     <button type="submit" class="btn btn-success">Add New</button>
 </form>
