@@ -176,25 +176,33 @@ namespace AppsDevCoffee.Controllers
             if (orderItems != null && orderItems.Any())
             {
                 order.SubtotalCost = orderItems.Sum(item => item.Subtotal);
+                HttpContext.Session.Remove("OrderItems");
+
+                //Add the order to the DB and get an id.
+                order.TotalCost = order.PriceAdjustment * order.SubtotalCost;
+                context.Orders.Add(order);
+
+                context.SaveChanges();
+
+
+                // Add order items to the database
+                foreach (var item in orderItems)
+                {
+                    item.Order = order; //include connection to order
+                    item.OriginType = null; //duplicating origintype and origintypeid threw an error. 
+                    context.OrderItems.Add(item);
+                }
+                // Clear order items from session
+                context.SaveChanges();
+
+
             }
             else
             {
                 return RedirectToAction("Index","Home");
             }
 
-            order.TotalCost = order.PriceAdjustment * order.SubtotalCost;
-            context.Orders.Add(order);
-
-            context.SaveChanges();
-
-            // Add order items to the database
-            foreach (var item in orderItems)
-            {
-                item.OrderId = order.Id;
-                context.OrderItems.Add(item);
-            }
-            // Clear order items from session
-            HttpContext.Session.Remove("OrderItems");
+            
 
             return RedirectToAction("OrderPayment", new { id = order.Id });
         }
@@ -284,11 +292,18 @@ namespace AppsDevCoffee.Controllers
             return View(order);
         }
 
+        [HttpGet]
+        public IActionResult Delete(int id) 
+        {
+            var order = context.Orders.Find(id);
+            return View(order);
+        }
+
         
         // POST: Order/Delete/{id}
         [HttpPost] //, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int id, bool confirm)
         {
             var order = context.Orders.Find(id);
             if (order == null)
@@ -302,7 +317,6 @@ namespace AppsDevCoffee.Controllers
             context.Orders.Remove(order);
             context.SaveChanges();
             return RedirectToAction("Index", "Order");
-            
         }
         
 
