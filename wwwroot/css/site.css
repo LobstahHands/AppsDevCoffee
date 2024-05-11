@@ -44,3 +44,15 @@ a {
         color: white;
         border-color: white;
     }
+
+
+    /*For the red X on creat  orders*/
+#RemoveItem {
+    background-color: firebrick;
+    color: white;
+    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 3px;
+    display: inline-block;
+    width: auto;
+}

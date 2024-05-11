@@ -92,24 +92,24 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            OrderDate = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7120),
-                            OrderStatus = "Filled",
+                            OrderDate = new DateTime(2024, 5, 10, 21, 47, 56, 256, DateTimeKind.Local).AddTicks(5891),
+                            OrderStatus = "Fulfilled",
                             PriceAdjustment = 0f,
                             SubtotalCost = 15f,
                             TotalCost = 15f,
                             TotalPaid = 15f,
-                            UserId = 1
+                            UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            OrderDate = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7125),
+                            OrderDate = new DateTime(2024, 5, 10, 21, 47, 56, 256, DateTimeKind.Local).AddTicks(5895),
                             OrderStatus = "Pending",
                             PriceAdjustment = 0f,
                             SubtotalCost = 25f,
                             TotalCost = 25f,
                             TotalPaid = 0f,
-                            UserId = 1
+                            UserId = 2
                         });
                 });
 
@@ -305,7 +305,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 1,
-                            DateAdded = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(6960),
+                            DateAdded = new DateTime(2024, 5, 10, 21, 47, 56, 256, DateTimeKind.Local).AddTicks(5736),
                             Email = "admin@example.com",
                             FirstName = "Admin",
                             Hashed = "PassPass1!",
@@ -317,7 +317,7 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            DateAdded = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7015),
+                            DateAdded = new DateTime(2024, 5, 10, 21, 47, 56, 256, DateTimeKind.Local).AddTicks(5781),
                             Email = "john@example.com",
                             FirstName = "JohnTest",
                             Hashed = "PassPass1!",
@@ -325,18 +325,6 @@ namespace AppsDevCoffee.Migrations
                             UserStatus = "Active",
                             UserTypeId = 2,
                             Username = "john"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DateAdded = new DateTime(2024, 5, 7, 21, 22, 8, 864, DateTimeKind.Local).AddTicks(7018),
-                            Email = "jane@example.com",
-                            FirstName = "JaneTest",
-                            Hashed = "PassPass1!",
-                            LastName = "Doe",
-                            UserStatus = "Pending",
-                            UserTypeId = 3,
-                            Username = "jane"
                         });
                 });
 
@@ -373,13 +361,6 @@ namespace AppsDevCoffee.Migrations
                         new
                         {
                             Id = 2,
-                            Active = 0,
-                            DateAdded = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Employee"
-                        },
-                        new
-                        {
-                            Id = 3,
                             Active = 0,
                             DateAdded = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "User"

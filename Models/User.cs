@@ -6,9 +6,13 @@ namespace AppsDevCoffee.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "First name is required")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Maximum 30 characters")]
+        [RegularExpression(@"^.{3,}$", ErrorMessage = "Minimum 3 characters required")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last name is required")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Maximum 30 characters")]
+        [RegularExpression(@"^.{3,}$", ErrorMessage = "Minimum 3 characters required")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Email is required")]

@@ -22,6 +22,7 @@ namespace AppsDevCoffee.Models
             modelBuilder.Entity<UserType>().HasData(
                 new UserType { Id = 1, Description = "Admin" },
                 new UserType { Id = 2, Description = "User" }
+                //Type 3 "Employee" could be used if necessary in the future. 
             );
 
 
@@ -48,18 +49,6 @@ namespace AppsDevCoffee.Models
                     Username = "john",
                     Hashed = "PassPass1!", // Replace with hashed password
                     UserStatus = "Active",
-                    DateAdded = DateTime.Now
-                },
-                new User
-                {
-                    Id = 3,
-                    FirstName = "JaneTest",
-                    LastName = "Doe",
-                    Email = "jane@example.com",
-                    UserTypeId = 2,
-                    Username = "jane",
-                    Hashed = "PassPass1!", // Replace with hashed password
-                    UserStatus = "Pending",
                     DateAdded = DateTime.Now
                 }
             );
@@ -123,7 +112,7 @@ namespace AppsDevCoffee.Models
                 new OrderItem
                 {
                     OrderItemId = 1,
-                    OrderId = 1, // Order ID
+                    OrderId = 1,
                     OriginTypeId = 1,
                     RoastTypeId = 1,
                     OzQuantity = 15.00f,
@@ -136,10 +125,10 @@ namespace AppsDevCoffee.Models
                 new Order
                 {
                     Id = 1,
-                    UserId = 1, // Admin user
+                    UserId = 2,
                     TotalPaid = 15.0f,
                     OrderDate = DateTime.Now,
-                    OrderStatus = "Filled",
+                    OrderStatus = "Fulfilled",
                     SubtotalCost = 15.0f,
                     PriceAdjustment = 0.0f,
                     TotalCost = 15.0f
@@ -147,7 +136,7 @@ namespace AppsDevCoffee.Models
                 new Order
                 {
                     Id = 2,
-                    UserId = 1, // Admin user
+                    UserId = 2,
                     TotalPaid = 0.0f,
                     OrderDate = DateTime.Now,
                     OrderStatus = "Pending",

@@ -3,70 +3,70 @@
 @{
     ViewData["Title"] = "Create Order";
 }
-
-<h1>Create Order</h1>
-
+<h2 class="display-4">@ViewData["Title"]</h2>
+    <div class="container"?>
     <div class="row">
         <div class="col-md-6">
             <form asp-controller="Order" asp-action="CreateItem" method="post">
-            <div class="form-group">
-                <label>Select Coffee:</label>
-                <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId">
-                    @foreach (var coffee in ViewBag.AvailableOriginTypes)
-                    {
-                        <option value="@coffee.OriginTypeId">@coffee.Country - @coffee.SupplierNotes - $@coffee.CostPerOz /oz</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Select Roast Type:</label>
-                <select class="form-control" id="roastSelect" asp-for="RoastTypeId">
-                    @foreach (var roastType in ViewBag.AvailableRoastTypes)
-                    {
-                        <option value="@roastType.RoastTypeId">@roastType.Description</option>
-                    }
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>Select Coffee:</label>
+                    <select class="form-control" id="coffeeSelect" asp-for="OriginTypeId">
+                        @foreach (var coffee in ViewBag.AvailableOriginTypes)
+                        {
+                            <option value="@coffee.OriginTypeId">@coffee.Country - @coffee.SupplierNotes - $@coffee.CostPerOz /oz</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Select Roast Type:</label>
+                    <select class="form-control" id="roastSelect" asp-for="RoastTypeId">
+                        @foreach (var roastType in ViewBag.AvailableRoastTypes)
+                        {
+                            <option value="@roastType.RoastTypeId">@roastType.Description</option>
+                        }
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label>Oz Quantity:</label><br>
-                <input type="hidden" asp-for="OzQuantity" value="15">
-                <p class="form-control-static">15 oz.</p>
-            </div>
+                <div class="form-group">
+                    <label>Oz Quantity:</label><br>
+                    <input type="hidden" asp-for="OzQuantity" value="15">
+                    <p class="form-control-static">15 oz.</p>
+                </div>
 
-            <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Order</button>
+                <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Order</button>
 
             </form>
-        <form asp-action="CreateOrder" asp-controller="Order">
-            <button type="submit" name="submitType" value="CreateOrder" class="btn btn-success">Create Order</button>
-            <br />
-            <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
-        </form>
+            <form asp-action="CreateOrder" asp-controller="Order">
+                <button type="submit" name="submitType" value="CreateOrder" class="btn btn-success">Create Order</button>
+                <br />
+                <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
+            </form>
         </div>
 
         <div class="col-md-6">
             <div id="orderItemsBox" class="border p-2">
-                <h4>Order Items</h4>
+                <h4 class="display-5">Order Items</h4>
                 <ul id="orderItemsList">
-                @if (Model.OrderItems != null)
-                {
-                    <form asp-controller="Order" asp-action="RemoveOrderItem" method="post" onsubmit="return confirm('Are you sure you want to remove this item?');">
-                    @foreach (var item in Model.OrderItems)
+                    @if (Model.OrderItems != null)
                     {
-                        <li style="display: flex;">
-                            Origin Id:@item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal &nbsp;
-                              <input type="hidden" name="originTypeId" value="@item.OriginTypeId" />
+                        <form asp-controller="Order" asp-action="RemoveOrderItem" method="post" onsubmit="return confirm('Are you sure you want to remove this item?');">
+                            @foreach (var item in Model.OrderItems)
+                            {
+                            <li style="display: flex;">
+                                Origin: @item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal &nbsp;
+                                <input type="hidden" name="originTypeId" value="@item.OriginTypeId" />
                                 <input type="hidden" name="roastTypeId" value="@item.RoastTypeId" />
                                 <input type="hidden" name="ozQuantity" value="@item.OzQuantity" />
-                                <button type="submit" class="btn btn-danger btn-sm">X</button>
-                            
-                        </li>
+                                <button id="RemoveItem" ="submit" class="btn btn-danger btn-sm">X</button>
+                            </li>
+                            }
+                        </form>
                     }
-                    </form>
-                } 
                 </ul>
             </div>
         </div>
     </div>
+    </div>
+    
 
     

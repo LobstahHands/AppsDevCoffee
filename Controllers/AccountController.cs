@@ -73,8 +73,8 @@ namespace AppsDevCoffee.Controllers
                             controller = "Admin";
                             break;
                         case 2:
-                            action = "Index";
-                            controller = "Home";
+                            action = "Create";
+                            controller = "Order";
                             break;
                         default:
                             action = "Index";
@@ -178,7 +178,7 @@ namespace AppsDevCoffee.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
-                    UserTypeId = 3, //Hardcoded to add as a general user. May leave the is for production and have admin switch to employee.
+                    UserTypeId = 2, //Hardcoded to add as a general user.
                     Username = model.Username,
                     Hashed = hashedPassword, // Store the hashed password
                     UserStatus = "Pending", // switch default to Pending for production until approved by Admin 

@@ -176,9 +176,6 @@ namespace AppsDevCoffee.Controllers
             if (orderItems != null && orderItems.Any())
             {
                 order.SubtotalCost = orderItems.Sum(item => item.Subtotal);
-
-                // Clear order items from session
-                HttpContext.Session.Remove("OrderItems");
             }
             else
             {
@@ -187,7 +184,17 @@ namespace AppsDevCoffee.Controllers
 
             order.TotalCost = order.PriceAdjustment * order.SubtotalCost;
             context.Orders.Add(order);
+
             context.SaveChanges();
+
+            // Add order items to the database
+            foreach (var item in orderItems)
+            {
+                item.OrderId = order.Id;
+                context.OrderItems.Add(item);
+            }
+            // Clear order items from session
+            HttpContext.Session.Remove("OrderItems");
 
             return RedirectToAction("OrderPayment", new { id = order.Id });
         }
@@ -197,11 +204,10 @@ namespace AppsDevCoffee.Controllers
         {
             var order = context.Orders.FirstOrDefault(o => o.Id == id);
 
-
             // Check if the ViewBag properties are null
             if (order.TotalCost == null || order.Id == null)
             {
-                // Redirect to an error page or handle the situation appropriately
+                // Redirect
                 return RedirectToAction("Index");
             }
 
