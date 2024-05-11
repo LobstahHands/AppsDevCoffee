@@ -22,10 +22,10 @@
                 <td>@originType.Country</td>
                 <td>@originType.SupplierNotes</td>
                 <td>@originType.RoasterNotes</td>
-                <td>@originType.CostPerOz</td>
+                <td>@originType.CostPerOz.ToString("C")</td>
                 <td>@originType.Active</td>
                 <td>
-                    <a asp-action="UpdateInventory" asp-route-id="@originType.OriginTypeId" class="btn btn-primary">Edit</a> |
+                    <a asp-action="UpdateInventory" asp-route-id="@originType.OriginTypeId" class="btn btn-primary">Edit</a>
                     <form asp-action="DeleteInventory" asp-route-id="@originType.OriginTypeId" method="post" onsubmit="return confirm('Are you sure you want to delete this origin type?');">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -35,5 +35,5 @@
     </tbody>
 </table>
 <div class="mt-4">
-    <a asp-controller="Admin" asp-action="Index" class="btn btn-primary">Back to Admin Index</a>
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-primary">Back to Admin Panel</a>
 </div>

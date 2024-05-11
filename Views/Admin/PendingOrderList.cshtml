@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<Order>
 
-
-<h1>Pending Orders</h1>
-
+@{
+    ViewData["Title"] = "Pending Order List";
+}
+<h2 class="display-6">@ViewData["Title"]</h2>
 <table class="table">
     <thead>
         <tr>

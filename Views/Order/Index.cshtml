@@ -1,51 +1,57 @@
 ﻿@model IEnumerable<AppsDevCoffee.Models.Order> 
 
-<h1>List of Orders</h1>
+@{
+    ViewData["Title"] = "Orders";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>User ID</th>
-            <th>Total Cost</th>
-            <th>Total Paid</th>
-            <th>Order Date</th>
-            <th>Paid Date</th>
-            <th>Order Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
+<div class="container p-5">
+    <h2 class="display-5">@ViewData["Title"]</h2>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@order.Id</td>
-                <td>@order.UserId</td>
-                <td>@order.TotalCost</td>
-                <td>
-                    @if (order.TotalPaid < order.TotalCost)
-                    {
-                        <a asp-action="OrderPayment" asp-route-id="@order.Id">@string.Format("{0:C}", order.TotalPaid) - Pay Now</a>
-                    }
-                    else
-                    {
-                        @order.TotalPaid
-                    }
-                    
-                </td>
-                <td>@order.OrderDate.ToShortDateString()</td>
-                <td>@(order.PaidDate.HasValue ? order.PaidDate.Value.ToShortDateString() : "")</td>
-
-                <td>@order.OrderStatus</td>
-                <td>
-                    <a asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
-                    @if (User.HasClaim("UserTypeId", "1"))@*If admin, show additional options*@
-                    {
-                    <a asp-action="Edit" asp-route-id="@order.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@order.Id">Delete</a>
-                    }
-                </td>
+                <th>Order ID</th>
+                <th>User ID</th>
+                <th>Total Cost</th>
+                <th>Total Paid</th>
+                <th>Order Date</th>
+                <th>Paid Date</th>
+                <th>Order Status</th>
+                <th>Action</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.UserId</td>
+                    <td>@order.TotalCost</td>
+                    <td>
+                        @if (order.TotalPaid < order.TotalCost)
+                        {
+                            <a asp-action="OrderPayment" asp-route-id="@order.Id">@string.Format("{0:C}", order.TotalPaid) - Pay Now</a>
+                        }
+                        else
+                        {
+                            @order.TotalPaid
+                        }
+
+                    </td>
+                    <td>@order.OrderDate.ToShortDateString()</td>
+                    <td>@(order.PaidDate.HasValue ? order.PaidDate.Value.ToShortDateString() : "")</td>
+
+                    <td>@order.OrderStatus</td>
+                    <td>
+                        <a asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
+                        @if (User.HasClaim("UserTypeId", "1"))@*If admin, show additional options*@
+                        {
+                            <a asp-action="Edit" asp-route-id="@order.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@order.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

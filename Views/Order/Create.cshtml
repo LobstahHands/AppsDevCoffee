@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "Create Order";
 }
-<h2 class="display-4">@ViewData["Title"]</h2>
-    <div class="container"?>
+
+    <div class="container p-5">
+    <h2 class="display-4">@ViewData["Title"]</h2>
     <div class="row">
         <div class="col-md-6">
             <form asp-controller="Order" asp-action="CreateItem" method="post">
@@ -44,16 +45,22 @@
         </div>
 
         <div class="col-md-6">
-            <div id="orderItemsBox" class="border p-2">
-                <h4 class="display-5">Order Items</h4>
+            <div id="orderItemsBox" class="border p-3">
+                <h4 class="display-6 mb-3">Order Items</h4>
                 <ul id="orderItemsList">
                     @if (Model.OrderItems != null)
                     {
                         <form asp-controller="Order" asp-action="RemoveOrderItem" method="post" onsubmit="return confirm('Are you sure you want to remove this item?');">
                             @foreach (var item in Model.OrderItems)
                             {
+
+                                List<RoastType> roastTypes = ViewBag.AvailableRoastTypes as List<RoastType>; // Assuming RoastType is the type of the elements in the list
+                                String roastDesc = roastTypes.FirstOrDefault(rt => rt.RoastTypeId == item.RoastTypeId)?.Description ?? "";
+
+
+
                             <li style="display: flex;">
-                                Origin: @item.OriginType.Country - @item.OzQuantity oz. - $@item.Subtotal &nbsp;
+                                    @item.OriginType.Country / @roastDesc @item.OzQuantity oz. - $@item.Subtotal &nbsp;
                                 <input type="hidden" name="originTypeId" value="@item.OriginTypeId" />
                                 <input type="hidden" name="roastTypeId" value="@item.RoastTypeId" />
                                 <input type="hidden" name="ozQuantity" value="@item.OzQuantity" />
