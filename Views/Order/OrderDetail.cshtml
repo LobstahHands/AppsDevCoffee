@@ -5,7 +5,8 @@
 <div>
     <h4>Order ID: @Model.Id</h4>
     <p>User ID: @Model.UserId</p>
-    <p>Total Paid: @Model.TotalPaid</p>
+    <p>Total Cost: @string.Format("{0:C}", Model.TotalCost)</p>
+    <p>Total Paid: @string.Format("{0:C}", Model.TotalPaid)</p>
     <p>Order Date: @Model.OrderDate</p>
     <p>Paid Date: @Model.PaidDate</p>
     <p>Order Status: @Model.OrderStatus</p>
@@ -23,6 +24,7 @@
                 <th>Item ID</th>
                 <th>Product Name</th>
                 <th>Quantity</th>
+                <th>Cost per Oz</th>
                 <th>Total Cost</th>
             </tr>
         </thead>
@@ -33,7 +35,8 @@
                     <td>@orderItem.OrderItemId</td>
                     <td>@orderItem.OriginType.Country</td>
                     <td>@orderItem.OzQuantity</td>
-                    <td>@orderItem.Subtotal</td>
+                    <td>@orderItem.OriginType.CostPerOz.ToString("C")</td>
+                    <td>@orderItem.Subtotal.ToString("C")</td>
                 </tr>
             }
         </tbody>

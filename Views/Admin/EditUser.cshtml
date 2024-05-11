@@ -34,9 +34,9 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Username">Username:</label>
-        <input asp-for="Username" class="form-control" />
-        <span asp-validation-for="Username" class="text-danger"></span>
+
+        <input asp-for="Username" type="hidden"/>
+
     </div>
 
     <div class="form-group">
@@ -49,5 +49,5 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="UserDetail" asp-controller="User" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+    <a asp-action="UserDetail" asp-controller="Admin" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
 </form>

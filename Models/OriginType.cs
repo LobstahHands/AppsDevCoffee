@@ -7,7 +7,7 @@ namespace AppsDevCoffee.Models
         public int OriginTypeId { get; set; }
 
         [Required(ErrorMessage = "Country is a required field")]
-        [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "Country must not contain numerical values")]
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Country must not contain numerical values")]
         public string Country { get; set; }
 
         [Required(ErrorMessage = "Supplier Notes is a required field")]

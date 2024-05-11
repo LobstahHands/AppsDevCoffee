@@ -25,7 +25,7 @@
                 <td>
                     @if (order.TotalPaid < order.TotalCost)
                     {
-                        <a asp-action="OrderPayment" asp-route-id="@order.Id">$@order.TotalPaid - Pay Now</a>
+                        <a asp-action="OrderPayment" asp-route-id="@order.Id">@string.Format("{0:C}", order.TotalPaid) - Pay Now</a>
                     }
                     else
                     {

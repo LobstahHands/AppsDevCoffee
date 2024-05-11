@@ -30,21 +30,25 @@ namespace AppsDevCoffee.Models
 
         public static bool VerifyPassword(string hashedPassword, string providedPassword)
         {
-            // Extract the salt and hash from the combined hash
-            string[] parts = hashedPassword.Split(':');
-            byte[] salt = Convert.FromBase64String(parts[0]);
-            string storedHash = parts[1];
+            if (hashedPassword != null && providedPassword!=null)
+            {
+                // Extract the salt and hash from the combined hash
+                string[] parts = hashedPassword.Split(':');
+                byte[] salt = Convert.FromBase64String(parts[0]);
+                string storedHash = parts[1];
 
-            // Hash the provided password with the same salt
-            string hashedProvidedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: providedPassword,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 10000,
-                numBytesRequested: 32));
+                // Hash the provided password with the same salt
+                string hashedProvidedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: providedPassword,
+                    salt: salt,
+                    prf: KeyDerivationPrf.HMACSHA256,
+                    iterationCount: 10000,
+                    numBytesRequested: 32));
 
-            // Compare the stored hash with the hash of the provided password
-            return storedHash == hashedProvidedPassword;
+                // Compare the stored hash with the hash of the provided password
+                return storedHash == hashedProvidedPassword;
+            }
+            else { return false; }
         }
     }
 }
