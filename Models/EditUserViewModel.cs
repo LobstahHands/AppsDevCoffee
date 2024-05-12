@@ -2,7 +2,7 @@
 
 namespace AppsDevCoffee.Models
 {
-    public class VMEditUser
+    public class EditUserViewModel
     {
         public int Id { get; set; }
 

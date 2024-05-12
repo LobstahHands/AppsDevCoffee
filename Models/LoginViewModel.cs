@@ -4,7 +4,7 @@ namespace AppsDevCoffee.Models
 {
         namespace AppsDevCoffee.Models
     {
-        public class VMLogin
+        public class LoginViewModel
         {
             [Required(ErrorMessage = "Please enter a username.")]
             [StringLength(255)]

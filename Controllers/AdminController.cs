@@ -66,7 +66,7 @@ public class AdminController : Controller
     }
 
     [HttpPost]
-    public IActionResult EditUser(VMEditUser editUser)
+    public IActionResult EditUser(EditUserViewModel editUser)
     {
         ModelState.Remove("UserType");
         if (ModelState.IsValid)
@@ -99,13 +99,13 @@ public class AdminController : Controller
     {
         ViewBag.UserTypes = Context.UserTypes.ToList();
         ViewBag.EditAction = "Add a User";
-        return View("EditUser", new VMEditUser());
+        return View("EditUser", new EditUserViewModel());
 
     }
 
 
     [HttpPost]
-    public IActionResult AddUser(VMEditUser editUser)
+    public IActionResult AddUser(EditUserViewModel editUser)
     {
         if (ModelState.IsValid)
         {

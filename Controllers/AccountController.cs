@@ -24,7 +24,7 @@ namespace AppsDevCoffee.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(VMLogin model)
+        public IActionResult Login(LoginViewModel model)
         {
 
             // Hash the password entered by the user -- uncomment for production
@@ -145,7 +145,7 @@ namespace AppsDevCoffee.Controllers
         //Register post
 
         [HttpPost]
-        public IActionResult Register(VMRegister model)
+        public IActionResult Register(RegisterViewModel model)
         {
             //Create Log object
             AccountLog accountLog = new()

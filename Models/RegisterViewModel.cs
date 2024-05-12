@@ -2,7 +2,7 @@
 
 namespace AppsDevCoffee.Models
 {
-    public class VMRegister
+    public class RegisterViewModel
     {
         [Required(ErrorMessage = "First name is required")]
         [RegularExpression(@"^[a-zA-Z]{3,}$", ErrorMessage = "First name must contain only letters and be at least 3 characters long")]
