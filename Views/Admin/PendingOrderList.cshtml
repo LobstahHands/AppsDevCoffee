@@ -13,7 +13,8 @@
             <th>Total Paid</th>
             <th>Order Date</th>
             <th></th>
-            <th></th>
+            <th>Mark as Roasted</th>
+            <th>Mark as Delivered</th>
         </tr>
     </thead>
     <tbody>
@@ -31,10 +32,22 @@
                         <a asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
                     </td>
                     <td>
-                        <form asp-action="PendingOrderList" method="post">
-                            <input type="hidden" name="orderId" value="@order.Id" />
-                            <button type="submit" class="btn btn-primary">Fill Order</button>
-                        </form>
+                        @if(order.OrderStatus=="Awaiting Roaster")
+                        {
+                            <form asp-action="PendingOrderRoasted" method="post">
+                                <input type="hidden" name="orderId" value="@order.Id" />
+                                <button type="submit" class="btn btn-primary">Roasted</button>
+                            </form>
+                        }
+                        </td>
+                        <td>
+                        @if (order.OrderStatus != "Roasted and Delivered")
+                        {
+                            <form asp-action="PendingOrderDelivered" method="post">
+                                <input type="hidden" name="orderId" value="@order.Id" />
+                                <button type="submit" class="btn btn-primary">Delivered</button>
+                            </form>
+                        }
                     </td>
                 </tr>
             }

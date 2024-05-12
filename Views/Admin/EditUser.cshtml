@@ -49,5 +49,10 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="UserDetail" asp-controller="Admin" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+    
 </form>
+<form asp-action="DeleteUser" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+</form>
+<a asp-action="UserList" asp-controller="Admin" class="btn btn-secondary">Cancel</a>

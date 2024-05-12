@@ -85,13 +85,13 @@ namespace AppsDevCoffee.Controllers
                     return RedirectToAction(action, controller);
                 }
                 else if (user != null && user.UserStatus != "Active" && validPassword)
-                {
+                { 
                     //Valid login, but account status is still pending
-                    accountLog.LogResult = "Blocked Login - Pending User";
+                    accountLog.LogResult = "Blocked Login -"+user.UserStatus+" User";
                     Context.AccountLogs.Add(accountLog);
                     Context.SaveChanges();
 
-                    ModelState.AddModelError("", "Account Pending, Unable to Login.");
+                    ModelState.AddModelError("", "Account "+user.UserStatus+", Unable to Login.");
                     return View(model);
                 }
                 else

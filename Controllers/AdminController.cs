@@ -15,11 +15,10 @@ public class AdminController : Controller
 
     public IActionResult index()
     {
+        // Fetch pending orders
+        var pendingOrders = Context.Orders.Where(o => o.OrderStatus != "Roasted and Delivered").ToList();
         // Fetch pending users
         var pendingUsers = Context.Users.Where(u => u.UserStatus == "Pending").ToList();
-
-        // Fetch pending orders
-        var pendingOrders = Context.Orders.Where(o => o.OrderStatus == "Pending").ToList();
 
         // Pass the data to the view
         var viewModel = new AdminIndexViewModel
@@ -171,7 +170,7 @@ public class AdminController : Controller
         return View(pendingOrders);
     }
     [HttpPost]
-    public IActionResult PendingOrderList(int orderId)
+    public IActionResult PendingOrderRoasted(int orderId)
     {
         // Retrieve the order from your context
         var order = Context.Orders.FirstOrDefault(o => o.Id == orderId);
@@ -184,7 +183,30 @@ public class AdminController : Controller
         }
 
         // Update the order status to "filled"
-        order.OrderStatus = "Filled";
+        order.OrderStatus = "Roasted";
+
+        // Save changes back to the context
+        Context.SaveChanges();
+
+
+        // Redirect back to the PendingOrders view
+        return RedirectToAction("Index");
+    }
+    [HttpPost]
+    public IActionResult PendingOrderDelivered(int orderId)
+    {
+        // Retrieve the order from your context
+        var order = Context.Orders.FirstOrDefault(o => o.Id == orderId);
+
+        // Check if the order exists
+        if (order == null)
+        {
+            // Handle the case where the order doesn't exist
+            return NotFound();
+        }
+
+        // Update the order status to "filled"
+        order.OrderStatus = "Roasted and Delivered";
 
         // Save changes back to the context
         Context.SaveChanges();
