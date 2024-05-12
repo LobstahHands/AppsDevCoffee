@@ -344,7 +344,7 @@ namespace AppsDevCoffee.Controllers
 
         private void SetViewTypes()
         {
-            var availableOriginTypes = context.OriginTypes.ToList();
+            var availableOriginTypes = context.OriginTypes.Where(o => o.Active == 1).ToList();
             var availableRoastTypes = context.RoastTypes.ToList();
 
             ViewBag.AvailableOriginTypes = availableOriginTypes;
