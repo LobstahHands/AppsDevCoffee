@@ -5,7 +5,7 @@
 }
 
     <div class="container p-5">
-    <h2 class="display-4">@ViewData["Title"]</h2>
+    <h2 class="display-5">@ViewData["Title"]</h2>
     <div class="row">
         <div class="col-md-6">
             <form asp-controller="Order" asp-action="CreateItem" method="post">
@@ -34,11 +34,11 @@
                     <p class="form-control-static">15 oz.</p>
                 </div>
 
-                <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Order</button>
+                <button type="submit" name="submitType" value="addToOrder" class="btn btn-primary">Add to Cart</button>
 
             </form>
             <form asp-action="CreateOrder" asp-controller="Order">
-                <button type="submit" name="submitType" value="CreateOrder" class="btn btn-success">Create Order</button>
+                <button type="submit" name="submitType" value="CreateOrder" class="btn btn-success">Place Order</button>
                 <br />
                 <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Cancel</a>
             </form>
@@ -46,7 +46,7 @@
 
         <div class="col-md-6">
             <div id="orderItemsBox" class="border p-3">
-                <h4 class="display-6 mb-3">Order Items</h4>
+                <h2 class="display-6 mb-3">Cart:</h2>
                 <ul id="orderItemsList">
                     @if (Model.OrderItems != null)
                     {

@@ -12,7 +12,8 @@
             <th>Total Cost</th>
             <th>Total Paid</th>
             <th>Order Date</th>
-            <th>Actions</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,9 @@
                     <td>@order.TotalCost</td>
                     <td>@order.TotalPaid</td>
                     <td>@order.OrderDate.ToShortDateString()</td>
+                    <td>
+                        <a asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.Id">Details</a>
+                    </td>
                     <td>
                         <form asp-action="PendingOrderList" method="post">
                             <input type="hidden" name="orderId" value="@order.Id" />

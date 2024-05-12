@@ -167,7 +167,7 @@ namespace AppsDevCoffee.Controllers
                 OrderDate = DateTime.Now,
                 PriceAdjustment = 1,
                 TotalPaid = 0,
-                OrderStatus = "Pending"
+                OrderStatus = "Awaiting Roaster"
             };
 
             // Retrieve order items from session

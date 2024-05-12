@@ -20,6 +20,11 @@
         <input asp-for="LastName" class="form-control" />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="Username">Username:</label>
+        <input readonly asp-for="Username" class="form-control" value="@Model.Username"/>
+
+    </div>
 
     <div class="form-group">
         <label asp-for="Email">Email:</label>
@@ -34,16 +39,11 @@
     </div>
 
     <div class="form-group">
-
-        <input asp-for="Username" type="hidden"/>
-
-    </div>
-
-    <div class="form-group">
         <label asp-for="UserStatus">User Status:</label>
         <select asp-for="UserStatus" class="form-control">
             <option value="Pending">Pending</option>
             <option value="Active">Active</option>
+            <option value="Active">Inactive</option>
         </select>
         <span asp-validation-for="UserStatus" class="text-danger"></span>
     </div>

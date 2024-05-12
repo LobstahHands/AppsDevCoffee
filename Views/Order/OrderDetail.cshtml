@@ -1,20 +1,22 @@
 ﻿@model AppsDevCoffee.Models.Order
 
-<h1>Order Details</h1>
+<h1 class="display-6">Order Details</h1>
 
 <div>
-    <h4>Order ID: @Model.Id</h4>
-    <p>User ID: @Model.UserId</p>
+    <p><strong>Order ID: @Model.Id</strong></p>
+    <p>Order Date: @Model.OrderDate</p>
+    <p>User Id: @Model.UserId</p>
     <p>Total Cost: @string.Format("{0:C}", Model.TotalCost)</p>
     <p>Total Paid: @string.Format("{0:C}", Model.TotalPaid)</p>
-    <p>Order Date: @Model.OrderDate</p>
-    <p>Paid Date: @Model.PaidDate</p>
+    @if(Model.PaidDate != null){
+        <p>Paid Date: @Model.PaidDate</p>
+    }
     <p>Order Status: @Model.OrderStatus</p>
 </div>
 
 <hr />
 
-<h3>Order Items</h3>
+<h3 class="display-6">Order Items</h3>
 
 @if (Model.OrderItems.Any())
 {
@@ -23,6 +25,7 @@
             <tr>
                 <th>Item ID</th>
                 <th>Product Name</th>
+                <th>Notes</th>
                 <th>Quantity</th>
                 <th>Cost per Oz</th>
                 <th>Total Cost</th>
@@ -34,7 +37,8 @@
                 <tr>
                     <td>@orderItem.OrderItemId</td>
                     <td>@orderItem.OriginType.Country</td>
-                    <td>@orderItem.OzQuantity</td>
+                    <td>@orderItem.OriginType.SupplierNotes</td>
+                    <td>@orderItem.OzQuantity oz</td>
                     <td>@orderItem.OriginType.CostPerOz.ToString("C")</td>
                     <td>@orderItem.Subtotal.ToString("C")</td>
                 </tr>
@@ -46,3 +50,4 @@ else
 {
     <p>No order items found for this order.</p>
 }
+<a class="btn  mt-4" asp-action="Index">Go Back</a>

@@ -9,14 +9,16 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Order ID</th>
+                <th>Order #</th>
+                <th>Order Date</th>
                 <th>User ID</th>
                 <th>Total Cost</th>
                 <th>Total Paid</th>
-                <th>Order Date</th>
+                
                 <th>Paid Date</th>
+
                 <th>Order Status</th>
-                <th>Action</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +26,7 @@
             {
                 <tr>
                     <td>@order.Id</td>
+                    <td>@order.OrderDate.ToShortDateString()</td>
                     <td>@order.UserId</td>
                     <td>@order.TotalCost</td>
                     <td>
@@ -33,11 +36,11 @@
                         }
                         else
                         {
-                            @order.TotalPaid
+                            @string.Format("{0:C}", order.TotalPaid)
                         }
 
                     </td>
-                    <td>@order.OrderDate.ToShortDateString()</td>
+
                     <td>@(order.PaidDate.HasValue ? order.PaidDate.Value.ToShortDateString() : "")</td>
 
                     <td>@order.OrderStatus</td>

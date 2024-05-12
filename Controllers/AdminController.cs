@@ -76,17 +76,19 @@ public class AdminController : Controller
             .Include(u => u.UserType)
             .FirstOrDefault();
 
+            if (user != null)
+            {
+                user.FirstName = editUser.FirstName;
+                user.LastName = editUser.LastName;
+                user.Username = editUser.Username;
+                user.Email = editUser.Email;
+                user.UserTypeId = editUser.UserTypeId;
+                user.UserStatus = editUser.UserStatus;
 
-            user.FirstName = editUser.FirstName;
-            user.LastName = editUser.LastName;  
-            user.Username = editUser.Username;  
-            user.Email = editUser.Email;
-            user.UserTypeId = editUser.UserTypeId;
-            user.UserStatus = editUser.UserStatus;
 
-
-            Context.Users.Update(user);
-            Context.SaveChanges();
+                Context.Users.Update(user);
+                Context.SaveChanges();
+            }
             return RedirectToAction("UserDetail", new { id = user.Id });
         }
         ViewBag.UserTypes = Context.UserTypes.ToList(); 

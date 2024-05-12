@@ -30,7 +30,7 @@
                     <td>@user.Email</td>
                     <td>@user.UserTypeId</td>
                     <td>
-                        <a href="@Url.Action("UserDetail", "Admin", new { id = user.Id })">Details</a>
+                        <a href="@Url.Action("EditUser", "Admin", new { id = user.Id })">Details</a>
                     </td>
                 </tr>
             }
